@@ -125,7 +125,7 @@ public class MathLISATest {
 			long y = Math.abs(r.nextLong());
 			
 			double start = x;
-			double end = (double)x+ (double)y;
+			double end = (double)x + (double)y;
 			
 			long random = MathLISA.Zufallszahl(x, y);
 			
