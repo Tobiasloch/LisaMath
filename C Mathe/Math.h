@@ -14,8 +14,8 @@
 #define CAT(A, B) CAT2(A, B)
 #define CAT2(A, B) A ## B
 	
-#define PI 3.14159265359
-#define E 2.71828182845
+#define PI 3.141592653589793
+#define E 2.718281828459045
 
 #define NELEMS(x) (sizeof(x) / sizeof((x)[0]))
 

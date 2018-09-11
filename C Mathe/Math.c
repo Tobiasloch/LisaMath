@@ -1,13 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
 #include "Math.h"
-
-#ifdef NAN
-#endif
-
-#define PI 3.14159265359
-#define E 2.71828182845
 
 double getPI() {
 	return PI;
@@ -235,4 +226,9 @@ double Absolut_double(double x) {
 
 long Absolut_long(long x) {
 	return (long)fabs(x);
+}
+
+int main() {
+	printf("test\n");
+
 }

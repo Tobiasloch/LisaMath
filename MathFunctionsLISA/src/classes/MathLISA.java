@@ -246,14 +246,14 @@ public interface MathLISA {
 	 * */
 	public static double min(double[] values) {
 		double min = Double.POSITIVE_INFINITY;
-		for (double v : values) if (v < min) min = v;
+		for (double v : values) min = Math.min(v, min);
 		
 		return min;
 	}
 	
 	public static long min(long[] values) {
 		long min = Long.MAX_VALUE;
-		for (long v : values) if (v < min) min = v;
+		for (long v : values) min = Math.min(v, min);
 		
 		return min;
 	}
@@ -281,15 +281,15 @@ public interface MathLISA {
 	 * 
 	 * */
 	public static double max(double[] values) {
-		double max = Double.POSITIVE_INFINITY;
-		for (double v : values) if (v > max) max = v;
+		double max = Double.NEGATIVE_INFINITY;
+		for (double v : values) max = Math.max(v, max);
 		
 		return max;
 	}
 	
 	public static long max(long[] values) {
-		long max = Long.MAX_VALUE;
-		for (long v : values) if (v > max) max = v;
+		long max = Long.MIN_VALUE;
+		for (long v : values) max = Math.max(v, max);
 		
 		return max;
 	}
@@ -348,14 +348,27 @@ public interface MathLISA {
 	 * @author t.loch
 	 * 
 	 * */
-	public static long Zufallszahl(long start, long size) {
+	public static double Zufallszahl(double start, double size) {
 		if (size <= 0) throw new IllegalArgumentException();
 		
-		double sum = (double) start + (double)size;
-		if (sum > Long.MAX_VALUE) size = Long.MAX_VALUE - start;
+		double sum = start + size;
+		if (sum > Double.MAX_VALUE) size = Double.MAX_VALUE - start;
 		
-		long random = (long)(Math.random()*size);
+		double random = Math.random()*size;
 		
 		return random+start;
+	}
+	
+	/**
+	 * 
+	 * generiert eine Zufallszahl
+	 * 
+	 * @param start ist der beginn des Intervalls und size die Größe
+	 * @return eine zufallszahl zwischen start und start+size
+	 * @author t.loch
+	 * 
+	 * */
+	public static long Zufallszahl(long start, long size) {
+		return Math.round(Zufallszahl((double)start, (double)size));
 	}
 }
