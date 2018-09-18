@@ -5,7 +5,7 @@
  *      Author: t.loch
  */
 #include "Assertions.h"
-#include "../src/Math.h"
+#include "../src/MathLISA.h"
 #include <limits.h>
 
 void test_Random(void);

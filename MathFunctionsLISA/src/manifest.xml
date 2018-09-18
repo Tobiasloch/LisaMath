@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StvManifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="StvManifest.xsd">
+	<!-- Controller und Version werden in .lgc-Datei gespeichert und zur Identifikation der verwendeten Bibliothek verwendet -->
+	<LSA Controller="OML" Version="Math" LibType="EXTLIB">
+		<Abstr>oml.basis.Lsa</Abstr>
+		<Final>lisa.oml.LsaLISAJni</Final>
+		<GUI_Name>Math</GUI_Name>
+		<Qualf>lsa</Qualf>
+		<HData>MathLISA\MathLISA.h</HData>
+	</LSA>
+	<LSA_VerfahrenListe>
+	   <LSA_Verfahren>
+			<Abstr>mathLISA.MathLISA</Abstr>
+			<Final>mathLISA.MathLISAImpl</Final>
+			<Qualf>mathLISA</Qualf>
+			<Prefx></Prefx>	
+			<Interface Name="mathLISA.IMathLISA" Prefix="MathLI" GUI_Name="MATHLISA" Prefix_C="MatLIS"/>
+		</LSA_Verfahren>
+	</LSA_VerfahrenListe>
+	<LSA_Items>
+	</LSA_Items>
+	<Primitive_Types>
+	</Primitive_Types>
+</StvManifest>

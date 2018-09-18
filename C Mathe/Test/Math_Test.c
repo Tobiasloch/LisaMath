@@ -8,13 +8,15 @@
 
 #define NUMBER_OF_TESTS 100
 #define ROUND_FACTOR 4
+#define MAX_SQUARE 10
+#define ACCURACY 0.0001
 
 // bei den testdaten ist jeder ungerade wert eine Testdatenreihe und jeder darauffolgende gerade Wert das ergebnis.
 // Das gilt analog für alle Testdatenreihen eines jeden Tests.
 
 // test_standardabw data
 // jedes Ergebnis besteht aus der Summe, dem Durchschnitt, der Varianz und der Standardabweichung der Testwerte
-static double DEFAULT_test_Standardabw_DATA[][7] = {{8, 7, 9, 10, 6}, {40, 8, 2, 1.4142135623730951},
+static float DEFAULT_test_Standardabw_DATA[][7] = {{8, 7, 9, 10, 6}, {40, 8, 2, 1.4142135623730951},
 		{5,10,-10,9,-55,8,6}, {-27, -3.8571, 475.2653, 21.80058041},
 		{10, 10}, {20, 10, 0, 0},
 		{5,6}, {11, 5.5, 0.25, 0.5},
@@ -26,7 +28,7 @@ static size_t DEFAULT_test_Standardabw_DATA_size_x = NELEMS(DEFAULT_test_Standar
 static size_t DEFAULT_test_Standardabw_DATA_size_y[] = {5, 7, 2, 2, 4, 4};
 
 // test_median data
-static double DEFAULT_test_median_DATA[][12] = {{5,3,7,4,4,3,6,4,7,8,7,6},{5.5},
+static float DEFAULT_test_median_DATA[][12] = {{5,3,7,4,4,3,6,4,7,8,7,6},{5.5},
 											{2,21,-5,5,2.3}, {2.3},
 											{2.445,5.554,775,221}, {113.277},
 											{-19,-54,-2.24,-8,-9648,-17},{-18},
@@ -38,7 +40,7 @@ static size_t DEFAULT_test_median_DATA_size_y[] = {12, 5, 4, 6, 5, 6, 5};
 
 // test_round data
 // der erste Wert des Ergebnisses (alle geraden indizes) bezeichnet auf den zu rundenden Wert und der zweite das zu erwartende Ergebnis
-static double DEFAULT_test_round_DATA[][2] = {{5.54556}, {2, 5.55},
+static float DEFAULT_test_round_DATA[][2] = {{5.54556}, {2, 5.55},
 		{15.21353}, {3, 15.214},
 		{15.1}, {3, 15.1},
 		{-0.1111}, {1, -0.1},
@@ -50,14 +52,14 @@ static size_t DEFAULT_test_round_DATA_size_x = NELEMS(DEFAULT_test_round_DATA);
 void test_Random(void) {
 	srand(time(NULL));
 
-	double lastValue = -1;
+	float lastValue = -1;
 	for (int i = 0; i < NUMBER_OF_TESTS; i++) {
-		double r = 0;
+		float r = 0;
 		while (r == lastValue) r = rand();
 
-		double start = r;
-		double end = 2*r;
-		double zufall = Zufallszahl(r, r);
+		float start = r;
+		float end = 2*r;
+		float zufall = Zufallszahl(r, r);
 
 		CU_ASSERT((zufall >= start) && (zufall <= end));
 		//printf("random: %f; start: %f; end: %f\n", zufall, start, end);
@@ -68,10 +70,10 @@ void test_Random(void) {
 
 void test_Standardabw(void){
 	for (int i = 0; i<DEFAULT_test_Standardabw_DATA_size_x; i+=2) {
-		double sum = round(sum_with_size(DEFAULT_test_Standardabw_DATA[i], DEFAULT_test_Standardabw_DATA_size_y[i/2]), ROUND_FACTOR);
-		double durch = round(durchschnitt_with_size(DEFAULT_test_Standardabw_DATA[i], DEFAULT_test_Standardabw_DATA_size_y[i/2]), ROUND_FACTOR);
-		double var = round(varianz_with_size(DEFAULT_test_Standardabw_DATA[i], DEFAULT_test_Standardabw_DATA_size_y[i/2]), ROUND_FACTOR);
-		double std = round(standardabw_with_size(DEFAULT_test_Standardabw_DATA[i], DEFAULT_test_Standardabw_DATA_size_y[i/2]), ROUND_FACTOR);
+		float sum = round(sum_with_size(DEFAULT_test_Standardabw_DATA[i], DEFAULT_test_Standardabw_DATA_size_y[i/2]), ROUND_FACTOR);
+		float durch = round(durchschnitt_with_size(DEFAULT_test_Standardabw_DATA[i], DEFAULT_test_Standardabw_DATA_size_y[i/2]), ROUND_FACTOR);
+		float var = round(varianz_with_size(DEFAULT_test_Standardabw_DATA[i], DEFAULT_test_Standardabw_DATA_size_y[i/2]), ROUND_FACTOR);
+		float std = round(standardabw_with_size(DEFAULT_test_Standardabw_DATA[i], DEFAULT_test_Standardabw_DATA_size_y[i/2]), ROUND_FACTOR);
 
 		CU_ASSERT_EQUAL(sum, round(DEFAULT_test_Standardabw_DATA[i+1][0], ROUND_FACTOR));
 		CU_ASSERT_EQUAL(durch, round(DEFAULT_test_Standardabw_DATA[i+1][1], ROUND_FACTOR));
@@ -82,9 +84,9 @@ void test_Standardabw(void){
 
 void test_Median(void){
 	for (int i = 0; i < DEFAULT_test_median_DATA_size_x; i+=2) {
-		double result = round(DEFAULT_test_median_DATA[i+1][0], ROUND_FACTOR);
+		float result = round(DEFAULT_test_median_DATA[i+1][0], ROUND_FACTOR);
 
-		double median = round(median_with_size(DEFAULT_test_median_DATA[i], DEFAULT_test_median_DATA_size_y[i/2]), ROUND_FACTOR);
+		float median = round(median_with_size(DEFAULT_test_median_DATA[i], DEFAULT_test_median_DATA_size_y[i/2]), ROUND_FACTOR);
 
 		CU_ASSERT_EQUAL(median, result);
 	}
@@ -92,7 +94,7 @@ void test_Median(void){
 
 void test_Round(void){
 	for (int i = 0; i < DEFAULT_test_round_DATA_size_x; i+=2) {
-		double round = round(DEFAULT_test_round_DATA[i][0], DEFAULT_test_round_DATA[i+1][0]);
+		float round = round(DEFAULT_test_round_DATA[i][0], DEFAULT_test_round_DATA[i+1][0]);
 
 		CU_ASSERT_EQUAL(round, DEFAULT_test_round_DATA[i+1][1]);
 	}
@@ -102,23 +104,21 @@ void test_MinMax(void){
 	int arraySize = (int)Zufallszahl(2, 10);
 	srand(time(NULL));
 
-	long* array;
-	if ((array=calloc(arraySize, sizeof(long))) == NULL) {
+	int* array;
+	if ((array=calloc(arraySize, sizeof(int))) == NULL) {
 		CU_FAIL("The array could not be allocated! Test is being exited!");
 		return;
 	}
-	long maxArray = 0;
-	long minArray = 0;
-
-	printf("arraySize= %d; NELEMS(array)=%d\n", arraySize, NELEMS(array));
+	int maxArray = 0;
+	int minArray = 0;
 
 	for (int i = 0; i < NUMBER_OF_TESTS; i++) {
-		long x = rand()-(RAND_MAX/2);
-		long y = x;
+		int x = rand()-(RAND_MAX/2);
+		int y = x;
 		while (x==y) y = rand()-(RAND_MAX/2);
 
-		long mi = fmin(x,y);
-		long ma = fmax(x,y);
+		int mi = fmin(x,y);
+		int ma = fmax(x,y);
 
 		CU_ASSERT_EQUAL(min(x,y), mi);
 		CU_ASSERT_EQUAL(max(x,y), ma);
@@ -131,10 +131,80 @@ void test_MinMax(void){
 			array[i%arraySize] = x;
 			maxArray = max(maxArray, x);
 			minArray = min(minArray, x);
-
-			CU_ASSERT_EQUAL(max_long_array_with_size(array, arraySize), maxArray);
-			CU_ASSERT_EQUAL(min_long_array_with_size(array, arraySize), minArray);
+	
+			// test with just min or max!
+			CU_ASSERT_EQUAL(max_int_array_with_size(array, arraySize), maxArray);
+			CU_ASSERT_EQUAL(min_int_array_with_size(array, arraySize), minArray);
 		}
+	}
+	
+	free(array);
+}
+
+void test_Wurzel() {
+	for (int i = 0; i < NUMBER_OF_TESTS; i++) {
+		float y = Zufallszahl(0, NUMBER_OF_TESTS);
+		
+		float expected = round((float) sqrt(y), ROUND_FACTOR);
+		float actual = round(wurzel(y), ROUND_FACTOR);
+		CU_ASSERT_EQUAL(expected, actual);
+			
+		int rad = Zufallszahl(1, MAX_SQUARE);
+		
+		expected = round(y, ROUND_FACTOR);
+		actual = round(wurzelExp((float)pow(expected, rad), rad), ROUND_FACTOR);
+
+		CU_ASSERT(abs(expected-actual) <= ACCURACY);
+	}
+}
+
+void test_Potenz() {
+	for (int i = 0; i < NUMBER_OF_TESTS; i++) {
+		float y = Zufallszahl(-NUMBER_OF_TESTS, NUMBER_OF_TESTS*2);
+		int rad = Zufallszahl(1, MAX_SQUARE);
+			
+		// test float version of quadrat
+		float fExpected = round((float)pow(y,2), ROUND_FACTOR);
+		float fActual = round(quadrat(y), ROUND_FACTOR);
+		CU_ASSERT_EQUAL(fExpected, fActual);
+		
+		// test int version of quadrat
+		int iExpected = (int) pow((int)y,2);
+		int iActual = quadrat((int) y);
+		CU_ASSERT_EQUAL(iExpected, iActual);
+			
+		fExpected = round(abs(y), ROUND_FACTOR);
+		fActual = round(pot((float)wurzelExp(fExpected, rad), rad), ROUND_FACTOR);
+		CU_ASSERT(abs(fExpected-fActual) <= ACCURACY);
+	}
+}
+
+void test_log() {
+	for (int i = 0; i < NUMBER_OF_TESTS; i++) {
+		float y = Zufallszahl(NUMBER_OF_TESTS, NUMBER_OF_TESTS*2);
+			
+		float expected = (float) log(y);
+		float actual = ln(y);
+			
+		CU_ASSERT(abs(abs(expected) - abs(actual)) <= ACCURACY);
+	}
+}
+
+void test_modulo() {
+	for (int i = 0; i < NUMBER_OF_TESTS; i++) {
+		float x = Zufallszahl(-NUMBER_OF_TESTS, NUMBER_OF_TESTS*2);
+		float y = Zufallszahl(-NUMBER_OF_TESTS*2, NUMBER_OF_TESTS*4);
+		if ((int)x==0) x+=2;
+		
+		double expected = fmod(y,x);
+		double actual = modulo(y, x);
+		 
+		CU_ASSERT(abs(abs(expected) - abs(actual)) <= ACCURACY);
+		
+		expected = ((int)y%(int)x);
+		actual = modulo((int)y,(int)x);
+		
+		CU_ASSERT_EQUAL(expected, actual);
 	}
 }
 
@@ -144,6 +214,10 @@ void run_All_Math_Tests() {
 	test_Median();
 	test_Round();
 	test_MinMax();
-
+	test_Wurzel();
+	test_Potenz();
+	test_log();
+	test_modulo();
+	
 	print_Summary();
 }

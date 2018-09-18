@@ -12,41 +12,47 @@ import java.io.IOException;
 import java.util.Random;
 
 import org.junit.BeforeClass;
+import org.junit.Test;
 
-import MathLISA.*;
+import mathLISA.*;
 
 public class MathLISATest {
 
-	public static final int numberOfTests = 1000;
+	public static final int numberOfTests = 100;
 	public static final int roundFactor = 4; // Rundungsfaktor	
+	public static final int maxSquare = 10;
+	public static final float Accuracy = (float) 0.0001;
 
 	// ungerade indizes sind die eingabewertarrays; gerade indizes sind die Zwischenergebnisse
-	public static final double[][] DEFAULT_standardabwTestData = {{8, 7, 9, 10, 6}, {40, 8, 2, 1.4142135623730951}, 
-			{5,10,-10,9,-55,8,6}, {-27, -3.8571, 475.2653, 21.80058041},
+	public static final float[][] DEFAULT_standardabwTestData = {{8, 7, 9, 10, 6}, {40, 8, 2, (float) 1.4142135623730951}, 
+			{5,10,-10,9,-55,8,6}, {-27, (float) -3.8571, (float) 475.2653, (float) 21.80058041},
 			{10, 10}, {20, 10, 0, 0},
-			{5,6}, {11, 5.5, 0.25, 0.5},
-			{15,16,15,17}, {63, 15.75, 0.6875, 0.829156198},
-			{5.5, 1, 2.68, 0.001}, {9.181, 2.29525, 4.3399, 2.0832}};
+			{5,6}, {11, (float) 5.5, (float) 0.25, (float) 0.5},
+			{15,16,15,17}, {63, (float) 15.75, (float) 0.6875, (float) 0.829156198},
+			{(float) 5.5, 1, (float) 2.68, (float) 0.001}, {(float) 9.181, (float) 2.29525, (float) 4.3399, (float) 2.0832}};
 	
-	public static final double[][] DEFAULT_medianTestData = {{5, 3, 7, 4, 4, 3, 6, 4, 7, 8, 7, 6}, {5.5}
+	public static final float[][] DEFAULT_medianTestData = {{5, 3, 7, 4, 4, 3, 6, 4, 7, 8, 7, 6}, {(float) 5.5}
 			};
+	
 	// jeder zweite wert ist das ergebnis und besteht aus der gerundeten Stelle und dem ergebniswert
-	public static final double[][] DEFAULT_roundTestData = {{5.54556}, {2, 5.55},
-			{15.21353}, {3, 15.214},
-			{15.1}, {3, 15.1},
-			{-0.1111}, {1, -0.1},
-			{-0.6}, {0, -1},
-			{5.93}, {0, 6}};
+	public static final float[][] DEFAULT_roundTestData = {{(float) 5.54556}, {2, (float) 5.55},
+			{(float) 15.21353}, {3, (float) 15.214},
+			{(float) 15.1}, {3, (float) 15.1},
+			{(float) -0.1111}, {1, (float) -0.1},
+			{(float) -0.6}, {0, -1},
+			{(float) 5.93}, {0, 6}};
 	
 	public static final File DEFAULT_TEST_FOLDER = new File("./src/Test/TestFolder");
 	public static final String[] DATA_FILE_NAMES = {"StandardabwTest", "medianTest", "roundTest"};
 	public static final String DATA_FILE_EXTENSION = "test";
 	public static final String DATA_VAR_NAME = "test";
 	
-	public static double[][] standardabwTestData = DEFAULT_standardabwTestData;
-	public static double[][] medianTestData = DEFAULT_medianTestData;
-	public static double[][] roundTestData = DEFAULT_roundTestData;
-
+	public static float[][] standardabwTestData = DEFAULT_standardabwTestData;
+	public static float[][] medianTestData = DEFAULT_medianTestData;
+	public static float[][] roundTestData = DEFAULT_roundTestData;
+	
+	MathLISAImpl maLi = new MathLISAImpl(null);
+	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		File folder = DEFAULT_TEST_FOLDER;
@@ -59,7 +65,7 @@ public class MathLISATest {
 		roundTestData = readDataFromStringIntoArray(fileToString(dataFiles[2]));
 	}
 	
-	public static void saveArray(double[][] array, File f) {
+	public static void saveArray(float[][] array, File f) {
 		JSONObject jObject = new JSONObject();
 		try {
 			jObject.put(DATA_VAR_NAME, array);
@@ -73,20 +79,20 @@ public class MathLISATest {
 		
 	}
 	
-	public static double[][] readDataFromStringIntoArray(String s) {
-		double[][] array = null;
+	public static float[][] readDataFromStringIntoArray(String s) {
+		float[][] array = null;
 		
 		try {
 			JSONObject jObject =  new JSONObject(s);
 			JSONArray jArray = jObject.getJSONArray(DATA_VAR_NAME);
 			
-			array = new double[jArray.length()][];
+			array = new float[jArray.length()][];
 			for (int i = 0; i < jArray.length(); i++) {
 				JSONArray internalArray = jArray.getJSONArray(i);
 				
-				array[i] = new double[internalArray.length()];
+				array[i] = new float[internalArray.length()];
 				for (int k = 0; k < internalArray.length(); k++) {
-					array[i][k] = internalArray.getDouble(k);
+					array[i][k] = (float) internalArray.getDouble(k);
 				}
 			}
 		} catch (JSONException e) {
@@ -101,52 +107,176 @@ public class MathLISATest {
 		if (!f.exists()) return "";
 		
 		String text = "";
-		FileReader fr;
-		try {
-			fr = new FileReader(f);
-			BufferedReader br = new BufferedReader(fr);
-			
+		try (BufferedReader br = new BufferedReader(new FileReader(f));) {
 			String line;
 			while ((line = br.readLine()) != null) {
 				text += line;
 			}
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
 		return text;
 	}
 	
-	@org.junit.Test
-	public void RandomTest() {
+	@Test
+	public void WurzelTest() {
 		for (int i = 0; i < numberOfTests; i++) {
 			Random r = new Random();
-			long x = r.nextLong();
-			long y = Math.abs(r.nextLong());
+			float y = (float) r.nextFloat() * numberOfTests;
 			
-			double start = x;
-			double end = (double)x + (double)y;
+			float expected = maLi.round((float)Math.sqrt(y), roundFactor);
+			float actual = maLi.round(maLi.wurzel(y), roundFactor);
+			assertTrue("The square is wrong! expected: " + expected + ", but was " + actual, expected == actual);
 			
-			long random = IMathLISA.Zufallszahl(x, y);
+			int rad = r.nextInt(maxSquare)+1;
 			
-			assertTrue("random: "+ random + "  \nstart: "+start + "  \nend: "+ end + "  \nPosition: " + i + "\nsize: "+y, (random >= start) && (random <= end));
+			expected = maLi.round(y, roundFactor);
+			actual = maLi.round(maLi.wurzelExp((float)Math.pow(expected, rad), rad), roundFactor);
+
+			assertTrue("The square is wrong! expected: " + expected + ", but was " + actual, Math.abs(expected-actual) < Accuracy);
+		}
+		
+		// test wrong params
+		float[] wrongParams = {-1, Float.POSITIVE_INFINITY, Float.NaN};
+		
+		for (float x : wrongParams) {
+			try {
+				float result = maLi.wurzel(x);
+				fail("The wurzel function did not throw an excepction! result: " + result + "; parameter: " + x);
+			} catch (IllegalArgumentException ia) {
+				
+			}
 		}
 	}
 	
-	@org.junit.Test
+	@Test
+	public void PotenzTester() {
+		for (int i = 0; i < numberOfTests; i++) {
+			Random r = new Random();
+			float y = (r.nextFloat() * numberOfTests) - (numberOfTests/2);
+			int rad = r.nextInt(maxSquare)+1;
+			
+			// test float version of quadrat
+			float fExpected = maLi.round((float)Math.pow(y,2), roundFactor);
+			float fActual = maLi.round(maLi.quadrat(y), roundFactor);
+			assertTrue("The float quadrat is wrong! expected: " + fExpected + ", but was " + fActual, fExpected == fActual);
+			
+			// test int version of quadrat
+			int iExpected = (int) Math.pow((int)y,2);
+			int iActual = maLi.quadrat((int) y);
+			assertTrue("The int quadrat is wrong! expected: " + iExpected + ", but was " + iActual, iExpected == iActual);
+			
+			fExpected = maLi.round(Math.abs(y), roundFactor);
+			fActual = maLi.round(maLi.pot((float)maLi.wurzelExp(fExpected, rad), rad), roundFactor);
+			assertTrue("The quadrat is wrong! expected: " + fExpected + ", but was " + fActual, Math.abs(fExpected-fActual) <= Accuracy);
+		}
+		
+		// test wrong params
+		float[] wrongParams = {Float.POSITIVE_INFINITY, Float.NaN};
+		
+		for (float x : wrongParams) {
+			try {
+				float result = maLi.wurzel(x);
+				fail("The wurzel function did not throw an excepction! result: " + result + "; parameter: " + x);
+			} catch (IllegalArgumentException ia) {
+				
+			}
+		}
+
+	}
+	
+	@Test
+	public void logTest() {
+		for (int i = 0; i < numberOfTests; i++) {
+			Random r = new Random();
+			float y = r.nextFloat() * numberOfTests;
+			
+			float expected = (float) Math.log(y);
+			float actual = maLi.ln(y);
+			
+			assertTrue("The ln function is wrong! expected: " + expected + ", but was " + actual, Math.abs(Math.abs(expected) - Math.abs(actual)) <= Accuracy);
+		}
+		
+		// test errors
+		float[] wrongParams = {-1, 0, Float.POSITIVE_INFINITY, Float.NaN};
+		
+		for (float x : wrongParams) {
+			try {
+				float result = maLi.ln(x);
+				fail("The ln function did not throw an excepction! result: " + result + "; parameter: " + x);
+			} catch (IllegalArgumentException ia) {
+				
+			}
+		}
+	}
+	
+	@Test
+	public void moduloTest() {
+		for (int i = 0; i < numberOfTests; i++) {
+			Random r = new Random();
+			float x = (r.nextFloat() * numberOfTests) - (numberOfTests/2);
+			float y = (r.nextFloat() * numberOfTests * 2) - (numberOfTests);
+			if ((int)x==0) x+=2;
+			
+			double expected = y%x;
+			double actual = maLi.modulo(y, x);
+			 
+			assertTrue("The modulo function is wrong! expected: " + expected + ", but was " + actual, Math.abs(Math.abs(expected) - Math.abs(actual)) <= Accuracy);
+			
+			expected = ((int)y%(int)x);
+			actual = maLi.modulo((int)y,(int)x);
+			
+			assertTrue("The modulo function is wrong! expected: " + expected + ", but was " + actual, expected == actual);
+		}
+		
+		// test errors
+		float[] wrongParams = {0, Float.POSITIVE_INFINITY, Float.NaN};
+		
+		for (float x : wrongParams) {
+			try {
+				float result = maLi.modulo(x, x);
+				fail("The modulo function did not throw an excepction! result: " + result + "; parameter: " + x);
+			} catch (IllegalArgumentException ia) {
+				
+			}
+		}
+	}
+	
+	@Test
+	public void RandomTest() {
+		for (int i = 0; i < numberOfTests; i++) {
+			Random r = new Random();
+			int x = r.nextInt();
+			int y = Math.abs(r.nextInt());
+
+			float start = x;
+			float end = (float)x + (float)y;
+			
+			int random = maLi.Zufallszahl(x, y);
+			
+			try {
+				assertTrue("random: "+ random + "  \nstart: "+start + "  \nend: "+ end + "  \nPosition: " + i + "\nsize: "+y, (random >= start) && (random <= end));
+			} catch (IllegalArgumentException e) {
+				fail("The size is smaller or equals than 0! size: " + y + "; start: " + x);
+				
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	@Test
 	public void StandardabwTest() {
-		double[][] values = standardabwTestData;
-		System.out.println(Math.floorMod(8, 2));
+		float[][] values = standardabwTestData;
 		
 		for (int i = 0; i<values.length; i+=2) { 
-			double[] results = values[i+1];
-			for (int k = 0; k < results.length; k++) results[k] = IMathLISA.round(results[k], roundFactor);
+			float[] results = values[i+1];
+			for (int k = 0; k < results.length; k++) results[k] = maLi.round(results[k], roundFactor);
 
-			double sum = IMathLISA.round(IMathLISA.sum(values[i]), roundFactor);
-			double durch = IMathLISA.round(IMathLISA.durchschnitt(values[i]), roundFactor);
-			double var = IMathLISA.round(IMathLISA.varianz(values[i]), roundFactor);
-			double std = IMathLISA.round(IMathLISA.standardabw(values[i]), roundFactor);
+			float sum = maLi.round(maLi.sum(values[i]), roundFactor);
+			float durch = maLi.round(maLi.durchschnitt(values[i]), roundFactor);
+			float var = maLi.round(maLi.varianz(values[i]), roundFactor);
+			float std = maLi.round(maLi.standardabw(values[i]), roundFactor);
 			
 			assertTrue("sum was " + sum + " but expected was" + results[0], sum == results[0]);
 			assertTrue("durchschnitt was " + durch + " but expected was " + results[1], durch == results[1]);
@@ -155,54 +285,54 @@ public class MathLISATest {
 		}
 	}
 	
-	@org.junit.Test
+	@Test
 	public void medianTest() {
-		double[][] values = medianTestData;
+		float[][] values = medianTestData;
 		
 		for (int i = 0; i < values.length; i+=2) {
-			double[] results = values[i+1];
+			float[] results = values[i+1];
 			
-			double median = IMathLISA.round(IMathLISA.median(values[i]), roundFactor);
+			float median = maLi.round(maLi.median(values[i]), roundFactor);
 			
-			results[0] = IMathLISA.round(results[0], roundFactor);
+			results[0] = maLi.round(results[0], roundFactor);
 			assertTrue("median is " + median + " but expected was " + results[0], median == results[0]);
 		}
 	}
-	@org.junit.Test
+	@Test
 	public void roundTest() {
-		double[][] values = roundTestData;
+		float[][] values = roundTestData;
 		
 		for (int i = 0; i < values.length; i+=2) {
-			double[] results = values[i+1];
+			float[] results = values[i+1];
 			
-			double round = IMathLISA.round(values[i][0], (int)results[0]);
+			float round = maLi.round(values[i][0], (int)results[0]);
 			
 			assertTrue("Values was rounded incorrect! expected: " + results[1] + ", but was: " + round, round == results[1]);
 		}
 		
 	}
 	
-	@org.junit.Test
+	@Test
 	public void minMaxTest() {
-		int arraySize = (int) IMathLISA.Zufallszahl(2, numberOfTests/2);
+		int arraySize = (int) maLi.Zufallszahl(2, numberOfTests/2);
 		
-		long[] array = new long[arraySize];
-		long maxArray = 0;
-		long minArray = 0;
+		int[] array = new int[arraySize];
+		int maxArray = 0;
+		int minArray = 0;
 		
 		for (int i = 0; i < numberOfTests; i++) {
 			Random r = new Random();
 			
-			long x = Math.abs(r.nextLong());
-			long y = Math.abs(r.nextLong());
-			long min = Math.min(x, y);
-			long max = Math.max(x, y);
+			int x = Math.abs(r.nextInt());
+			int y = Math.abs(r.nextInt());
+			int min = Math.min(x, y);
+			int max = Math.max(x, y);
 			
-			assertTrue("The min value of " + x + ", " + y + " is " + IMathLISA.min(x, y) + ", but expected was " + min, min == IMathLISA.min(x, y));
-			assertTrue("The max value of " + x + ", " + y + " is " + IMathLISA.max(x, y) + ", but expected was " + max, max == IMathLISA.max(x, y));
+			assertTrue("The min value of " + x + ", " + y + " is " + maLi.min(x, y) + ", but expected was " + min, min == maLi.min(x, y));
+			assertTrue("The max value of " + x + ", " + y + " is " + maLi.max(x, y) + ", but expected was " + max, max == maLi.max(x, y));
 			
 			if (i%arraySize == 0) {
-				array = new long[arraySize];
+				array = new int[arraySize];
 				maxArray = 0;
 				minArray = 0;
 			} else {
@@ -211,8 +341,8 @@ public class MathLISATest {
 				maxArray = Math.max(maxArray, x);
 				minArray = Math.min(minArray, x);
 
-				assertTrue("The max value of the array is " + IMathLISA.max(array) + ", but expected was " + maxArray, maxArray == IMathLISA.max(array));
-				assertTrue("The min value of the array is " + IMathLISA.min(array) + ", but expected was " + minArray, minArray == IMathLISA.min(array));
+				assertTrue("The max value of the array is " + maLi.max(array) + ", but expected was " + maxArray, maxArray == maLi.max(array));
+				assertTrue("The min value of the array is " + maLi.min(array) + ", but expected was " + minArray, minArray == maLi.min(array));
 			}
 		}
 	}
