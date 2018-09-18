@@ -1,6 +1,5 @@
 package Test;
 
-import classes.*;
 import static org.junit.Assert.*;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,6 +12,8 @@ import java.io.IOException;
 import java.util.Random;
 
 import org.junit.BeforeClass;
+
+import MathLISA.*;
 
 public class MathLISATest {
 
@@ -127,7 +128,7 @@ public class MathLISATest {
 			double start = x;
 			double end = (double)x + (double)y;
 			
-			long random = MathLISA.Zufallszahl(x, y);
+			long random = IMathLISA.Zufallszahl(x, y);
 			
 			assertTrue("random: "+ random + "  \nstart: "+start + "  \nend: "+ end + "  \nPosition: " + i + "\nsize: "+y, (random >= start) && (random <= end));
 		}
@@ -136,15 +137,16 @@ public class MathLISATest {
 	@org.junit.Test
 	public void StandardabwTest() {
 		double[][] values = standardabwTestData;
+		System.out.println(Math.floorMod(8, 2));
 		
 		for (int i = 0; i<values.length; i+=2) { 
 			double[] results = values[i+1];
-			for (int k = 0; k < results.length; k++) results[k] = MathLISA.round(results[k], roundFactor);
+			for (int k = 0; k < results.length; k++) results[k] = IMathLISA.round(results[k], roundFactor);
 
-			double sum = MathLISA.round(MathLISA.sum(values[i]), roundFactor);
-			double durch = MathLISA.round(MathLISA.durchschnitt(values[i]), roundFactor);
-			double var = MathLISA.round(MathLISA.varianz(values[i]), roundFactor);
-			double std = MathLISA.round(MathLISA.standardabw(values[i]), roundFactor);
+			double sum = IMathLISA.round(IMathLISA.sum(values[i]), roundFactor);
+			double durch = IMathLISA.round(IMathLISA.durchschnitt(values[i]), roundFactor);
+			double var = IMathLISA.round(IMathLISA.varianz(values[i]), roundFactor);
+			double std = IMathLISA.round(IMathLISA.standardabw(values[i]), roundFactor);
 			
 			assertTrue("sum was " + sum + " but expected was" + results[0], sum == results[0]);
 			assertTrue("durchschnitt was " + durch + " but expected was " + results[1], durch == results[1]);
@@ -160,9 +162,9 @@ public class MathLISATest {
 		for (int i = 0; i < values.length; i+=2) {
 			double[] results = values[i+1];
 			
-			double median = MathLISA.round(MathLISA.median(values[i]), roundFactor);
+			double median = IMathLISA.round(IMathLISA.median(values[i]), roundFactor);
 			
-			results[0] = MathLISA.round(results[0], roundFactor);
+			results[0] = IMathLISA.round(results[0], roundFactor);
 			assertTrue("median is " + median + " but expected was " + results[0], median == results[0]);
 		}
 	}
@@ -173,7 +175,7 @@ public class MathLISATest {
 		for (int i = 0; i < values.length; i+=2) {
 			double[] results = values[i+1];
 			
-			double round = MathLISA.round(values[i][0], (int)results[0]);
+			double round = IMathLISA.round(values[i][0], (int)results[0]);
 			
 			assertTrue("Values was rounded incorrect! expected: " + results[1] + ", but was: " + round, round == results[1]);
 		}
@@ -182,7 +184,7 @@ public class MathLISATest {
 	
 	@org.junit.Test
 	public void minMaxTest() {
-		int arraySize = (int) MathLISA.Zufallszahl(2, numberOfTests/2);
+		int arraySize = (int) IMathLISA.Zufallszahl(2, numberOfTests/2);
 		
 		long[] array = new long[arraySize];
 		long maxArray = 0;
@@ -196,8 +198,8 @@ public class MathLISATest {
 			long min = Math.min(x, y);
 			long max = Math.max(x, y);
 			
-			assertTrue("The min value of " + x + ", " + y + " is " + MathLISA.min(x, y) + ", but expected was " + min, min == MathLISA.min(x, y));
-			assertTrue("The max value of " + x + ", " + y + " is " + MathLISA.max(x, y) + ", but expected was " + max, max == MathLISA.max(x, y));
+			assertTrue("The min value of " + x + ", " + y + " is " + IMathLISA.min(x, y) + ", but expected was " + min, min == IMathLISA.min(x, y));
+			assertTrue("The max value of " + x + ", " + y + " is " + IMathLISA.max(x, y) + ", but expected was " + max, max == IMathLISA.max(x, y));
 			
 			if (i%arraySize == 0) {
 				array = new long[arraySize];
@@ -209,8 +211,8 @@ public class MathLISATest {
 				maxArray = Math.max(maxArray, x);
 				minArray = Math.min(minArray, x);
 
-				assertTrue("The max value of the array is " + MathLISA.max(array) + ", but expected was " + maxArray, maxArray == MathLISA.max(array));
-				assertTrue("The min value of the array is " + MathLISA.min(array) + ", but expected was " + minArray, minArray == MathLISA.min(array));
+				assertTrue("The max value of the array is " + IMathLISA.max(array) + ", but expected was " + maxArray, maxArray == IMathLISA.max(array));
+				assertTrue("The min value of the array is " + IMathLISA.min(array) + ", but expected was " + minArray, minArray == IMathLISA.min(array));
 			}
 		}
 	}

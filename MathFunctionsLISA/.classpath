@@ -7,5 +7,7 @@
 	<classpathentry kind="lib" path="U:/jars/jackson-databind-2.9.6.jar"/>
 	<classpathentry kind="lib" path="U:/jars/jackson-annotations-2.9.6.jar"/>
 	<classpathentry kind="lib" path="U:/jars/java-json.jar"/>
+	<classpathentry kind="lib" path="N:/Transfer/Tobias/oml-core-1.2.8-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="N:/Transfer/Tobias/oml-lsa-2.0.0-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

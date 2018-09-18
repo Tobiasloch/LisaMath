@@ -1,9 +1,9 @@
-package classes;
+package MathLISA;
 import java.lang.Math;
 import java.util.Arrays;
 
-public interface MathLISA {
-	
+public interface IMathLISA {
+
 	public static final double E = Math.E;
 	public static final double PI = Math.PI;
 	
@@ -72,7 +72,7 @@ public interface MathLISA {
 	/**
 	 * 
 	 * Nutzt die pow Funktion der Mathe Bibliothek von Java um eine Potenz mit einem beliebigen Exponenten zu berechnen.
-	 * Sie entspricht der natürlichen Exponentialfunktion.
+	 * Sie entspricht der natuerlichen Exponentialfunktion.
 	 * 
 	 * @param Basis e und Exponent x (e^x)
 	 * @return Potenz von e^x
@@ -111,7 +111,7 @@ public interface MathLISA {
 	
 	/**
 	 * 
-	 * Nutzt die log Funktion der Mathe Bibliothek von Java um den natürlichen Logarithmus (ln) zu berechnen.
+	 * Nutzt die log Funktion der Mathe Bibliothek von Java um den natuerlichen Logarithmus (ln) zu berechnen.
 	 * 
 	 * @param Wurzel x zur Basis e
 	 * @return Der Exponent von e
@@ -132,7 +132,7 @@ public interface MathLISA {
 	 * 
 	 * */
 	public static double modulo(long x, long y) {
-		return x%y;
+		return Math.floorMod(x,  y);
 	}
 	
 	
@@ -180,7 +180,7 @@ public interface MathLISA {
 	 * Berechnet die Varianz des buffers values.
 	 * 
 	 * @param Array von double values
-	 * @return gibt die Varianz von values zurück
+	 * @return gibt die Varianz von values zurueck
 	 * @author t.loch
 	 * 
 	 * */
@@ -202,7 +202,7 @@ public interface MathLISA {
 	 * Berechnet die Standardabweichung des buffers values
 	 * 
 	 * @param Array von double Werten
-	 * @return gibt die standardabweichung der eingabewerte zurück
+	 * @return gibt die standardabweichung der eingabewerte zurueck
 	 * @author t.loch
 	 * 
 	 * */
@@ -229,7 +229,7 @@ public interface MathLISA {
 		Arrays.sort(values);
 		
 		double median = 0;
-		if (values.length % 2 == 0)
+		if (Math.floorMod(values.length, 2) == 0)
 			median = ((double)values[values.length/2] + (double)values[(values.length/2) - 1])/2;
 		else
 			median = (double) values[values.length/2];
@@ -239,7 +239,7 @@ public interface MathLISA {
 	
 	/**
 	 * 
-	 * gibt den minimalen wert des Buffers zurück
+	 * gibt den minimalen wert des Buffers zuraeck
 	 * 
 	 * @author t.loch
 	 * 
@@ -260,7 +260,7 @@ public interface MathLISA {
 	
 	/**
 	 * 
-	 * gibt den minimalen Wert von x und y zurück durch benutzen von Math.min
+	 * gibt den minimalen Wert von x und y zurueck durch benutzen von Math.min
 	 * 
 	 * @author t.loch
 	 * 
@@ -275,7 +275,7 @@ public interface MathLISA {
 	
 	/**
 	 * 
-	 * gibt den maximalen Wert des double arrays zurück
+	 * gibt den maximalen Wert des double arrays zurueck
 	 * 
 	 * @author t.loch
 	 * 
@@ -296,7 +296,7 @@ public interface MathLISA {
 	
 	/**
 	 * 
-	 * gibt den maximalen Wert von x und y zurück durch benutzen von Math.max
+	 * gibt den maximalen Wert von x und y zurueck durch benutzen von Math.max
 	 * 
 	 * @author t.loch
 	 * 
@@ -343,7 +343,7 @@ public interface MathLISA {
 	 * 
 	 * generiert eine Zufallszahl
 	 * 
-	 * @param start ist der beginn des Intervalls und size die Größe
+	 * @param start ist der beginn des Intervalls und size die Groeße
 	 * @return eine zufallszahl zwischen start und start+size
 	 * @author t.loch
 	 * 
@@ -363,7 +363,7 @@ public interface MathLISA {
 	 * 
 	 * generiert eine Zufallszahl
 	 * 
-	 * @param start ist der beginn des Intervalls und size die Größe
+	 * @param start ist der beginn des Intervalls und size die Groeße
 	 * @return eine zufallszahl zwischen start und start+size
 	 * @author t.loch
 	 * 
