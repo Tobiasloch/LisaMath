@@ -1,6 +1,6 @@
 #include "MathLISA.h"
 
-lsa_float wurzel(lsa_float x) {
+lsa_float MatheWurzel(lsa_float x) {
 	if (x < 0) {
 		perror("Der Wert von x ist kleiner 0!\n");
 		return NAN;
@@ -9,7 +9,7 @@ lsa_float wurzel(lsa_float x) {
 	return sqrt(x);
 }
 
-lsa_float wurzelExp(lsa_float x, lsa_float y) {
+lsa_float MatheWurzelExp(lsa_float x, lsa_float y) {
 	if (x < 0) {
 		perror("Der Wert von x ist kleiner 0!\n");
 		return NAN;
@@ -18,19 +18,19 @@ lsa_float wurzelExp(lsa_float x, lsa_float y) {
 	return pow(x, (1/y));
 }
 
-lsa_float quadrat_float(lsa_float x) {
+lsa_float MatheQuadrat_float(lsa_float x) {
 	return pow(x,2);
 }
 
-lsa_int quadrat_int(lsa_int x) {
+lsa_int MatheQuadrat_int(lsa_int x) {
 	return (lsa_int)pow((lsa_float)x,2);
 }
 // pot_float is just a macro that redirects to pow
-lsa_int pot_int(lsa_int x, lsa_int y) {
+lsa_int MathePot_int(lsa_int x, lsa_int y) {
 	return (lsa_int)pow((lsa_float)x,(lsa_float)y);
 }
 
-lsa_float ln(lsa_float x) {
+lsa_float MatheLn(lsa_float x) {
 	if (x <=0) {
 		perror("Der Wert von x ist kleiner 0!\n");
 		return NAN;
@@ -39,15 +39,15 @@ lsa_float ln(lsa_float x) {
 	return log(x);
 }
 
-lsa_int modulo_int(lsa_int x, lsa_int y) {
+lsa_int MatheModulo_int(lsa_int x, lsa_int y) {
 	return (lsa_int)fmod((lsa_float)x,(lsa_float)y);
 }
 
-lsa_float modulo_float(lsa_float x, lsa_float y) {
+lsa_float MatheModulo_float(lsa_float x, lsa_float y) {
 	return fmod(x,y);
 }
 
-lsa_float sum_with_size(lsa_float* values, size_t size) {
+lsa_float MatheSum_with_size(lsa_float* values, size_t size) {
 	if (size <= 0) return NAN;
 		
 	lsa_float sum = 0;
@@ -59,31 +59,31 @@ lsa_float sum_with_size(lsa_float* values, size_t size) {
 	return sum;
 }
 
-lsa_float durchschnitt_with_size(lsa_float* values, size_t size) {
+lsa_float MatheDurchschnitt_with_size(lsa_float* values, size_t size) {
 	if (size <= 0) return NAN;
 	
-	lsa_float s = sum_with_size(values, size);
+	lsa_float s = MatheSum_with_size(values, size);
 	
 	return s/size;
 }
 
-lsa_float varianz_with_size(lsa_float* values, size_t size) {
+lsa_float MatheVarianz_with_size(lsa_float* values, size_t size) {
 	if (size <= 0) return NAN;
 	
-	lsa_float average = durchschnitt_with_size(values, size);
+	lsa_float average = MatheDurchschnitt_with_size(values, size);
 	
 	lsa_float varianz = 0;
 	for (lsa_int i = 0; i < size; i++) {
-		varianz += quadrat(values[i] - average);
+		varianz += MatheQuadrat_float(values[i] - average);
 	}
 	
 	return varianz/size;
 }
 
-lsa_float standardabw_with_size(lsa_float* values, size_t size) {
+lsa_float MatheStandardabw_with_size(lsa_float* values, size_t size) {
 	if (size <= 0) return NAN;
 	
-	lsa_float v = varianz_with_size(values, size);
+	lsa_float v = MatheVarianz_with_size(values, size);
 	
 	return sqrt(v);
 }
@@ -99,7 +99,7 @@ lsa_int comp(const void * elem1, const void * elem2)
     return 0;
 }
 
-lsa_float median_with_size(lsa_float* values, size_t size) {
+lsa_float MatheMedian_with_size(lsa_float* values, size_t size) {
 	if (size <= 0) return NAN;
 	
 	qsort(values, size, sizeof(lsa_float), comp);
@@ -114,85 +114,85 @@ lsa_float median_with_size(lsa_float* values, size_t size) {
 	return m;
 }
 
-lsa_float min_float(lsa_float x, lsa_float y) {
+lsa_float MatheMin_float(lsa_float x, lsa_float y) {
 	if (x < y) return x;
 	return y;
 }
 
-lsa_int min_int(lsa_int x, lsa_int y) {
+lsa_int MatheMin_int(lsa_int x, lsa_int y) {
 	if (x < y) return x;
 	return y;
 }
 
-lsa_float min_float_array_with_size(lsa_float* values, size_t size){
+lsa_float MatheMin_float_array_with_size(lsa_float* values, size_t size){
 	if (size <= 0) return NAN;
 	
 	lsa_float m = values[0];
 	
 	for (lsa_int i = 1; i < size; i++) {
-		m = min_float(m, values[i]);
+		m = MatheMin_float(m, values[i]);
 	}
 	
 	return m;
 }
 
-lsa_int min_int_array_with_size(lsa_int* values, size_t size){
+lsa_int MatheMin_int_array_with_size(lsa_int* values, size_t size){
 	if (size <= 0) return (lsa_int)NAN;
 	
 	lsa_int m = values[0];
 	
 	for (lsa_int i = 1; i < size; i++) {
-		m = min_int(m, values[i]);
+		m = MatheMin_int(m, values[i]);
 	}
 	
 	return m;
 }
 
 
-lsa_float max_float(lsa_float x, lsa_float y) {
+lsa_float MatheMax_float(lsa_float x, lsa_float y) {
 	if (x > y) return x;
 	return y;
 }
 
-lsa_int max_int(lsa_int x, lsa_int y) {
+lsa_int MatheMax_int(lsa_int x, lsa_int y) {
 	if (x > y) return x;
 	return y;
 }
 
-lsa_float max_float_array_with_size(lsa_float* values, size_t size){
+lsa_float MatheMax_float_array_with_size(lsa_float* values, size_t size){
 	if (size <= 0) return NAN;
 	
 	lsa_float m = values[0];
 	
 	for (lsa_int i = 1; i < size; i++) {
-		m = max_float(m, values[i]);
+		m = MatheMax_float(m, values[i]);
 	}
 	
 	return m;
 }
 
-lsa_int max_int_array_with_size(lsa_int* values, size_t size){
+lsa_int MatheMax_int_array_with_size(lsa_int* values, size_t size){
 	if (size <= 0) return (lsa_int)NAN;
 	
 	lsa_int m = values[0];
 	
 	for (lsa_int i = 1; i < size; i++) {
-		m = max_int(m, values[i]);
+		m = MatheMax_int(m, values[i]);
 	}
 	
 	return m;
 }
 
-lsa_float round_position(lsa_float x, lsa_int position) {
+lsa_float MatheRound_position(lsa_float x, lsa_int position) {
 	if (position < 0) return NAN;
 	
 	lsa_float p = pow(10, (lsa_float)position);
-	lsa_float r = round(x*p)/p;
+	lsa_float r = MatheRound(x*p)/p;
 	
 	return r;
 }
 
-lsa_float Zufallszahl_float(lsa_float start, lsa_float size) {
+lsa_float MatheZufallszahl_float(lsa_float start, lsa_float size) {
 	if (size < 0) return NAN;
 	
 	srand(time(NULL));
@@ -203,16 +203,16 @@ lsa_float Zufallszahl_float(lsa_float start, lsa_float size) {
 	return r;
 }
 
-lsa_int Zufallszahl_int(lsa_int start, lsa_int size) {
-	lsa_float r = Zufallszahl_float(start, size);
+lsa_int MatheZufallszahl_int(lsa_int start, lsa_int size) {
+	lsa_float r = MatheZufallszahl_float(start, size);
 	
 	return (lsa_int)round(r);
 }
 
-lsa_float Absolut_float(lsa_float x) {
+lsa_float MatheAbsolut_float(lsa_float x) {
 	return fabs(x);
 }
 
-lsa_int Absolut_int(lsa_int x) {
+lsa_int MatheAbsolut_int(lsa_int x) {
 	return (lsa_int)fabs(x);
 }
