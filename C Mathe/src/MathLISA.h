@@ -31,7 +31,7 @@
 #define MatheMedian(a) MatheMedian_with_size(a, NELEMS(a))
 
 #define MatheMin(a) _Generic(a, lsa_float*:MatheMin_float_array_with_size, lsa_int*: MatheMin_int_array_with_size)(a, NELEMS(a))
-#define MatheMinAtomar(a,b) _Generic(a, lsa_long: MatheMin_int, lsa_int: MatheMin_int, double:MatheMin_float, lsa_float: MatheMin_float)(a,b)
+#define MatheMinAtomar(a,b) _Generic(a, lsa_int: MatheMin_int, lsa_int: MatheMin_int, double:MatheMin_float, lsa_float: MatheMin_float)(a,b)
 	
 #define MatheMax(a) _Generic(a, lsa_float*:MatheMax_float_array_with_size, lsa_int*: MatheMax_int_array_with_size)(a, NELEMS(a))
 #define MatheMaxAtomar(a,b) _Generic(a, lsa_int: MatheMax_int, lsa_float: MatheMax_float)(a,b)

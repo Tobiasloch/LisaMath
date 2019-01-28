@@ -2,7 +2,7 @@
 
 
 int main() {
-	float test = pow(t);
+	lsa_float test = MatheWurzel(4);
 	
-	printf("wurzel(4)=%f\n", test);
+	printf("wurzel(4)=%f\n", (float)test);
 }
