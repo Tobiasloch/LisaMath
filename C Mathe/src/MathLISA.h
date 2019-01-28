@@ -54,6 +54,8 @@
 
 #define modulo(a,b) _Generic(a, long:modulo_int, int:modulo_int, double:modulo_float, float:modulo_float)(a,b)
 
+#define exp(x) pot_float(E, x)
+
 float wurzel(float x);
 
 float wurzelExp(float x, float y);

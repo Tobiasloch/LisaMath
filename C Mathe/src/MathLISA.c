@@ -26,16 +26,16 @@ float wurzelExp(float x, float y) {
 	return pow(x, (1/y));
 }
 
-int pot_int(int x, int y) {
-	return (int)pow((float)x,(float)y);
-}
-
 float quadrat_float(float x) {
 	return pow(x,2);
 }
 
 int quadrat_int(int x) {
 	return (int)pow((float)x,2);
+}
+// pot_float is just a macro that redirects to pow
+int pot_int(int x, int y) {
+	return (int)pow((float)x,(float)y);
 }
 
 float ln(float x) {
@@ -96,6 +96,7 @@ float standardabw_with_size(float* values, size_t size) {
 	return sqrt(v);
 }
 
+// comparator for numbers
 int comp(const void * elem1, const void * elem2) 
 {
     float f = *((float*)elem1);

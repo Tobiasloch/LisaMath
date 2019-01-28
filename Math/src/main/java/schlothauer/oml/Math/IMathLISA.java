@@ -1,11 +1,14 @@
-package mathLISA;
+package schlothauer.oml.Math;
 import java.lang.Math;
+
+import oml.basis.Lisa_Float;
+import oml.basis.Lisa_Int;
 
 public interface IMathLISA {
 
 	/**
 	 * 
-	 * Mathematische Konstante e. Der Wert entspricht e=2.7182817
+	 * Mathematische Konstante e. Der Wert entspricht e=2.7182817.
 	 * 
 	 * @author t.loch
 	 * 
@@ -14,7 +17,16 @@ public interface IMathLISA {
 	
 	/**
 	 * 
-	 * Mathematische Konstante Pi. Der Wert entspricht Pi=3.1415927
+	 * Mathematische Konstante e. Der Wert entspricht e=2.7182817.
+	 * 
+	 * @author t.loch
+	 * 
+	 * */
+	public float getE();
+	
+	/**
+	 * 
+	 * Mathematische Konstante Pi. Der Wert entspricht Pi=3.1415927.
 	 * 
 	 * @author t.loch
 	 * 
@@ -23,7 +35,16 @@ public interface IMathLISA {
 	
 	/**
 	 * 
-	 * Es wird die sqrt Funktion der Mathe Bibliothek von Java verwendet um x zu berechnen.
+	 * Mathematische Konstante Pi. Der Wert entspricht Pi=3.1415927.
+	 * 
+	 * @author t.loch
+	 * 
+	 * */
+	public float getPI();
+	
+	/**
+	 * 
+	 * Berechnet die Quadratwurzel von der Eingabe x.
 	 * 
 	 * @param x - Radikand
 	 * @return Quadratwurzel von x
@@ -34,8 +55,7 @@ public interface IMathLISA {
 
 	/**
 	 * 
-	 * Es wird die pow Funktion der Mathe Bibliothek verwendet, welche die n-te Wurzel berechnet.
-	 * Dabei ist n der Nenner des Bruches im Exponenten der Potenz.
+	 * Berechnet die n-te Wurzel der von x.
 	 * 
 	 * @param x - Radikand 
 	 * @param n - Wurzelpotenz
@@ -47,7 +67,7 @@ public interface IMathLISA {
 	
 	/**
 	 * 
-	 * Nutzt die pow Funktion der Mathe Bibliothek von Java um x zu quadrieren.
+	 * Berechnet das Quadrat von Eingabe x.
 	 * 
 	 * @param x - Basis
 	 * @return Quadrat von x
@@ -58,7 +78,7 @@ public interface IMathLISA {
 	
 	/**
 	 * 
-	 * Nutzt die pow Funktion der Mathe Bibliothek von Java um x zu quadrieren.
+	 * Berechnet das Quadrat von Eingabe x.
 	 * 
 	 * @param x - Basis
 	 * @return Quadrat von x
@@ -70,8 +90,7 @@ public interface IMathLISA {
 	
 	/**
 	 * 
-	 * Nutzt die pow Funktion der Mathe Bibliothek von Java um eine Potenz mit einem beliebigen Exponenten zu berechnen.
-	 * Sie entspricht der natuerlichen Exponentialfunktion.
+	 * Berechnet den Wert der natürlichen Exponentialfunktion von der Eingabe x.
 	 * 
 	 * @param x - Exponent
 	 * @return Potenz von e<sup>x</sup>
@@ -82,7 +101,7 @@ public interface IMathLISA {
 	
 	/**
 	 * 
-	 * Nutzt die pow Funktion der Mathe Bibliothek von Java um eine Potenz mit einem beliebigen Exponenten zu berechnen.
+	 * Berechnet die Potenz x<sup>y</sup>.
 	 * 
 	 * @param x - Basis
 	 * @param y - Exponent
@@ -94,7 +113,7 @@ public interface IMathLISA {
 	
 	/**
 	 * 
-	 * Nutzt die pow Funktion der Mathe Bibliothek von Java um eine Potenz mit einem beliebigen Exponenten zu berechnen.
+	 * Berechnet die Potenz x<sup>y</sup>.
 	 * 
 	 * @param x - Basis 
 	 * @param y - Exponent
@@ -106,7 +125,7 @@ public interface IMathLISA {
 	
 	/**
 	 * 
-	 * Nutzt die log Funktion der Mathe Bibliothek von Java um den natuerlichen Logarithmus (ln) zu berechnen.
+	 * Berechnet den Wert des natürlichen Logarithmus an der Stelle x.
 	 * 
 	 * @param x - Wurzel x zur Basis e
 	 * @return Exponent von e<sup>x</sup>
@@ -142,7 +161,7 @@ public interface IMathLISA {
 	
 	/**
 	 * 
-	 * Berechnet die Summe des angegebenen buffers.
+	 * Berechnet die Summe der angegebenen Werte.
 	 * 
 	 * @param values - Datenmenge
 	 * @return Summe von values
@@ -150,77 +169,77 @@ public interface IMathLISA {
 	 * 
 	 * 
 	 * */
-	public float sum(float[] values);
+	public float sum(Lisa_Float[] values);
 	
 	/**
 	 * 
-	 * Berechnet das arithmetische Mittel des Buffers values.
+	 * Berechnet das arithmetische Mittel der Werte.
 	 * 
 	 * @param values - Array von float values
 	 * @return arithmetische Mittel von values
 	 * @author t.loch
 	 * 
 	 * */
-	public float durchschnitt(float[] values);
+	public float durchschnitt(Lisa_Float[] values);
 	
 	/**
 	 * 
-	 * Berechnet die Varianz des buffers values.
+	 * Berechnet die Varianz der angegebenen Werte.
 	 * 
 	 * @param values - Array von float values
 	 * @return Varianz von values
 	 * @author t.loch
 	 * 
 	 * */
-	public float varianz(float[] values);
+	public float varianz(Lisa_Float[] values);
 	
 	/**
 	 * 
-	 * Berechnet die Standardabweichung des buffers values
+	 * Berechnet die Standardabweichung der angegebenen Werte.
 	 * 
 	 * @param values - Datenmenge
 	 * @return Standardabweichung von values
 	 * @author t.loch
 	 * 
 	 * */
-	public float standardabw(float[] values);
+	public float standardabw(Lisa_Float[] values);
 	
 	/**
 	 * 
-	 * Berechnet den Median des float arrays
+	 * Berechnet den Median der angegebenen Werte.
 	 * 
 	 * @param values - Datenmenge
 	 * @return median der Eingabewerte
 	 * @author t.loch
 	 * 
 	 * */
-	public float median(float[] values);
+	public float median(Lisa_Float[] values);
 	
 	/**
 	 * 
-	 * gibt den minimalen wert des Buffers zurueck
+	 * Berechnet den minimalen Wert der angegebenen Werte.
 	 * 
 	 * @param values - Datenmenge
 	 * @return minimaler Wert in values
 	 * @author t.loch
 	 * 
 	 * */
-	public float min(float[] values);
+	public float min(Lisa_Float[] values);
 	
 	/**
 	 * 
-	 * gibt den minimalen wert des Buffers zurueck
+	 * Berechnet den minimalen Wert der angegebenen Werte.
 	 * 
 	 * @param values - Datenmenge
 	 * @return minimaler Wert in values
 	 * @author t.loch
 	 * 
 	 * */
-	public int min(int[] values);
+	public int min(Lisa_Int[] values);
 	
 	/**
 	 * 
-	 * gibt den minimalen Wert von x und y zurueck durch benutzen von Math.min
+	 * Berechnet den minimalen Wert der angegebenen Werte x und y.
 	 * 
 	 * @param x - Zahl
 	 * @param y - Zahl
@@ -228,11 +247,11 @@ public interface IMathLISA {
 	 * @author t.loch
 	 * 
 	 * */
-	public float min(float x, float y);
+	public float minAtomar(float x, float y);
 	
 	/**
 	 * 
-	 * gibt den minimalen Wert von x und y zurueck durch benutzen von Math.min
+	 * Berechnet den minimalen Wert der angegebenen Werte x und y.
 	 * 
 	 * @param x - Zahl
 	 * @param y - Zahl
@@ -240,33 +259,33 @@ public interface IMathLISA {
 	 * @author t.loch
 	 * 
 	 * */
-	public float min(int x, int y);
+	public float minAtomar(int x, int y);
 	
 	/**
 	 * 
-	 * gibt den maximalen wert des Buffers zurueck
+	 * Berechnet den maximalen Wert der angegebenen Werte.
 	 * 
 	 * @param values - Datenmenge
 	 * @return maximaler Wert in values
 	 * @author t.loch
 	 * 
 	 * */
-	public float max(float[] values);
+	public float max(Lisa_Float[] values);
 	
 	/**
 	 * 
-	 * gibt den maximalen wert des Buffers zurueck
+	 * Berechnet den maximalen Wert der angegebenen Werte.
 	 * 
 	 * @param values - Datenmenge
 	 * @return maximaler Wert in values
 	 * @author t.loch
 	 * 
 	 * */
-	public int max(int[] values);
+	public int max(Lisa_Int[] values);
 	
 	/**
 	 * 
-	 * gibt den maximalen Wert von x und y zurueck durch benutzen von Math.max
+	 * Berechnet den maximalen Wert der angegebenen Werte x und y.
 	 * 
 	 * @param x - Zahl
 	 * @param y - Zahl
@@ -274,11 +293,11 @@ public interface IMathLISA {
 	 * @author t.loch
 	 * 
 	 * */
-	public float max(float x, float y);
+	public float maxAtomar(float x, float y);
 	
 	/**
 	 * 
-	 * gibt den maximalen Wert von x und y zurueck durch benutzen von Math.max
+	 * Berechnet den maximalen Wert der angegebenen Werte x und y.
 	 * 
 	 * @param x - Zahl
 	 * @param y - Zahl
@@ -286,11 +305,11 @@ public interface IMathLISA {
 	 * @author t.loch
 	 * 
 	 * */
-	public float max(int x, int y);
+	public float maxAtomar(int x, int y);
 	
 	/**
 	 * 
-	 * Rundet den gegebenen Wert. Bei .5 wird aufgerundet, bei kleiner .5 wird abgerundet
+	 * Rundet den gegebenen Wert. Bei .5 wird aufgerundet, bei kleiner .5 wird abgerundet.
 	 * 
 	 * @param x - zu rundender Wert
 	 * @return gerundeter Integer Wert von x
@@ -301,7 +320,7 @@ public interface IMathLISA {
 	
 	/**
 	 * 
-	 * Rundet den gegebenen Wert auf eine gegebene Nachkommastelle. Bei .5 wird aufgerundet, bei kleiner .5 wird abgerundet
+	 * Rundet den gegebenen Wert auf eine gegebene Nachkommastelle. Bei .5 wird aufgerundet, bei kleiner .5 wird abgerundet.
 	 * 
 	 * @param x - zu rundende Wert 
 	 * @param position - Nackommastelle auf die gerundet werden soll
@@ -309,11 +328,11 @@ public interface IMathLISA {
 	 * @author t.loch
 	 * 
 	 * */
-	public float round(float x, int position);
+	public float roundPosition(float x, int position);
 	
 	/**
 	 * 
-	 * generiert eine Zufallszahl
+	 * Generiert eine Zufallszahl.
 	 * 
 	 * @param start - Beginn des Intervalls 
 	 * @param size - Groe�e des Intervalls
@@ -325,7 +344,7 @@ public interface IMathLISA {
 	
 	/**
 	 * 
-	 * generiert eine Zufallszahl
+	 * Generiert eine Zufallszahl.
 	 * 
 	 * @param start - Beginn des Intervalls 
 	 * @param size - Groe�e des Intervalls
@@ -337,7 +356,7 @@ public interface IMathLISA {
 	
 	/**
 	 * 
-	 * gibt den Abstand von null von der eingegebenen Zahl zur�ck;
+	 * Berechnet den Betrag, also den Abstand von 0, der gegebenen Zahl.
 	 * 
 	 * @param x - zu berechnende Zahl
 	 * @return Abstand von 0 von x
@@ -348,7 +367,7 @@ public interface IMathLISA {
 	
 	/**
 	 * 
-	 * gibt den Abstand von null von der eingegebenen Zahl zur�ck;
+	 * Berechnet den Betrag, also den Abstand von 0, der gegebenen Zahl.
 	 * 
 	 * @param x - zu berechnende Zahl
 	 * @return Abstand von 0 von x
