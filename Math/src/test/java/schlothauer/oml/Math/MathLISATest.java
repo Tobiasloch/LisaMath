@@ -21,7 +21,7 @@ import schlothauer.oml.Math.MathLISAImpl;
 public class MathLISATest {
 
 	public static final int numberOfTests = 100;
-	public static final int roundFactor = 4; // Rundungsfaktor	
+	public static final int roundFactor = 10; // Rundungsfaktor	
 	public static final int maxSquare = 10;
 	public static final float Accuracy = (float) 0.0001;
 
@@ -321,7 +321,7 @@ public class MathLISATest {
 	public void roundTest() {
 		float[][] values = roundTestData;
 		
-		System.out.println(maLi.roundPosition((float)5.4445, 3));
+		System.out.println(maLi.roundPosition(5.5555f, 2 ));
 		
 		for (int i = 0; i < values.length; i+=2) {
 			float[] results = values[i+1];

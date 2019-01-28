@@ -14,7 +14,7 @@
 			<Final>mathLISA.MathLISAImpl</Final>
 			<Qualf>mathLISA</Qualf>
 			<Prefx></Prefx>	
-			<Interface Name="mathLISA.IMathLISA" Prefix="MathLI" GUI_Name="MATHLISA" Prefix_C="MatLIS"/>
+			<Interface Name="mathLISA.IMathLISA" Prefix="Mathe" GUI_Name="MATHLISA" Prefix_C="MatLIS"/>
 		</LSA_Verfahren>
 	</LSA_VerfahrenListe>
 	<LSA_Items>

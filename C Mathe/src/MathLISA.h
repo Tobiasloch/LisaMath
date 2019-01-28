@@ -29,24 +29,14 @@
 #define standardabw(a) standardabw_with_size(a, NELEMS(a))
 #define median(a) median_with_size(a, NELEMS(a))
 
-#define min1(a) _Generic(a, float*:min_float_array_with_size, int*: min_int_array_with_size)(a, NELEMS(a))
-#define min2(a,b) _Generic(a, long: min_int, int: min_int, double:min_float, float: min_float)(a,b)
-
-#define min(...)\
-	CAT(min, COUNT_PARMS(__VA_ARGS__))(__VA_ARGS__)
+#define min(a) _Generic(a, float*:min_float_array_with_size, int*: min_int_array_with_size)(a, NELEMS(a))
+#define minAtomar(a,b) _Generic(a, long: min_int, int: min_int, double:min_float, float: min_float)(a,b)
 	
-	
-#define max1(a) _Generic(a, float*:max_float_array_with_size, int*: max_int_array_with_size)(a, NELEMS(a))
-#define max2(a,b) _Generic(a, long: max_int, int: max_int, double:max_float, float: max_float)(a,b)
+#define max(a) _Generic(a, float*:max_float_array_with_size, int*: max_int_array_with_size)(a, NELEMS(a))
+#define maxAtomar(a,b) _Generic(a, long: max_int, int: max_int, double:max_float, float: max_float)(a,b)
 
-#define max(...)\
-	CAT(max, COUNT_PARMS(__VA_ARGS__))(__VA_ARGS__)
-
-#define round1(a) round(a)
-#define round2(a, b) round_position(a,b)
-
-#define round(...)\
-	CAT(round, COUNT_PARMS(__VA_ARGS__))(__VA_ARGS__)
+#define round(a) round(a)
+#define roundPosition(a, b) round_position(a,b)
 
 #define Zufallszahl(a, b) _Generic(a, long: Zufallszahl_int, int: Zufallszahl_int, double:Zufallszahl_float, float: Zufallszahl_float)(a, b)
 
