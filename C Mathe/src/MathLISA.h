@@ -46,6 +46,10 @@
 
 #define exp(x) pot_float(E, x)
 
+#define getPI() PI
+
+#define getE() E
+
 float wurzel(float x);
 
 float wurzelExp(float x, float y);

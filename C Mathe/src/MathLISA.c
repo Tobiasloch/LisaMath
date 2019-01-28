@@ -1,13 +1,5 @@
 #include "MathLISA.h"
 
-float getPI() {
-	return PI;
-}
-
-float getE() {
-	return E;
-}
-
 float wurzel(float x) {
 	if (x < 0) {
 		perror("Der Wert von x ist kleiner 0!\n");
