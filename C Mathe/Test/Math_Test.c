@@ -7,7 +7,7 @@
 #include "Math_Test.h"
 
 #define NUMBER_OF_TESTS 100
-#define ROUND_FACTOR 4
+#define roundPosition_FACTOR 4
 #define MAX_SQUARE 10
 #define ACCURACY 0.0001
 
@@ -38,16 +38,16 @@ static float DEFAULT_test_median_DATA[][12] = {{5,3,7,4,4,3,6,4,7,8,7,6},{5.5},
 static size_t DEFAULT_test_median_DATA_size_x = NELEMS(DEFAULT_test_median_DATA);
 static size_t DEFAULT_test_median_DATA_size_y[] = {12, 5, 4, 6, 5, 6, 5};
 
-// test_round data
+// test_roundPosition data
 // der erste Wert des Ergebnisses (alle geraden indizes) bezeichnet auf den zu rundenden Wert und der zweite das zu erwartende Ergebnis
-static float DEFAULT_test_round_DATA[][2] = {{5.54556}, {2, 5.55},
+static float DEFAULT_test_roundPosition_DATA[][2] = {{5.54556}, {2, 5.55},
 		{15.21353}, {3, 15.214},
 		{15.1}, {3, 15.1},
 		{-0.1111}, {1, -0.1},
 		{-0.6}, {0, -1},
 		{5.93}, {0, 6}};
-static size_t DEFAULT_test_round_DATA_size_x = NELEMS(DEFAULT_test_round_DATA);
-//static size_t DEFAULT_test_round_DATA_size_y = 1;
+static size_t DEFAULT_test_roundPosition_DATA_size_x = NELEMS(DEFAULT_test_roundPosition_DATA);
+//static size_t DEFAULT_test_roundPosition_DATA_size_y = 1;
 
 void test_Random(void) {
 	srand(time(NULL));
@@ -70,33 +70,33 @@ void test_Random(void) {
 
 void test_Standardabw(void){
 	for (int i = 0; i<DEFAULT_test_Standardabw_DATA_size_x; i+=2) {
-		float sum = round(sum_with_size(DEFAULT_test_Standardabw_DATA[i], DEFAULT_test_Standardabw_DATA_size_y[i/2]), ROUND_FACTOR);
-		float durch = round(durchschnitt_with_size(DEFAULT_test_Standardabw_DATA[i], DEFAULT_test_Standardabw_DATA_size_y[i/2]), ROUND_FACTOR);
-		float var = round(varianz_with_size(DEFAULT_test_Standardabw_DATA[i], DEFAULT_test_Standardabw_DATA_size_y[i/2]), ROUND_FACTOR);
-		float std = round(standardabw_with_size(DEFAULT_test_Standardabw_DATA[i], DEFAULT_test_Standardabw_DATA_size_y[i/2]), ROUND_FACTOR);
+		float sum = roundPosition(sum_with_size(DEFAULT_test_Standardabw_DATA[i], DEFAULT_test_Standardabw_DATA_size_y[i/2]), roundPosition_FACTOR);
+		float durch = roundPosition(durchschnitt_with_size(DEFAULT_test_Standardabw_DATA[i], DEFAULT_test_Standardabw_DATA_size_y[i/2]), roundPosition_FACTOR);
+		float var = roundPosition(varianz_with_size(DEFAULT_test_Standardabw_DATA[i], DEFAULT_test_Standardabw_DATA_size_y[i/2]), roundPosition_FACTOR);
+		float std = roundPosition(standardabw_with_size(DEFAULT_test_Standardabw_DATA[i], DEFAULT_test_Standardabw_DATA_size_y[i/2]), roundPosition_FACTOR);
 
-		CU_ASSERT_EQUAL(sum, round(DEFAULT_test_Standardabw_DATA[i+1][0], ROUND_FACTOR));
-		CU_ASSERT_EQUAL(durch, round(DEFAULT_test_Standardabw_DATA[i+1][1], ROUND_FACTOR));
-		CU_ASSERT_EQUAL(var, round(DEFAULT_test_Standardabw_DATA[i+1][2], ROUND_FACTOR));
-		CU_ASSERT_EQUAL(std, round(DEFAULT_test_Standardabw_DATA[i+1][3], ROUND_FACTOR));
+		CU_ASSERT_EQUAL(sum, roundPosition(DEFAULT_test_Standardabw_DATA[i+1][0], roundPosition_FACTOR));
+		CU_ASSERT_EQUAL(durch, roundPosition(DEFAULT_test_Standardabw_DATA[i+1][1], roundPosition_FACTOR));
+		CU_ASSERT_EQUAL(var, roundPosition(DEFAULT_test_Standardabw_DATA[i+1][2], roundPosition_FACTOR));
+		CU_ASSERT_EQUAL(std, roundPosition(DEFAULT_test_Standardabw_DATA[i+1][3], roundPosition_FACTOR));
 	}
 }
 
 void test_Median(void){
 	for (int i = 0; i < DEFAULT_test_median_DATA_size_x; i+=2) {
-		float result = round(DEFAULT_test_median_DATA[i+1][0], ROUND_FACTOR);
+		float result = roundPosition(DEFAULT_test_median_DATA[i+1][0], roundPosition_FACTOR);
 
-		float median = round(median_with_size(DEFAULT_test_median_DATA[i], DEFAULT_test_median_DATA_size_y[i/2]), ROUND_FACTOR);
+		float median = roundPosition(median_with_size(DEFAULT_test_median_DATA[i], DEFAULT_test_median_DATA_size_y[i/2]), roundPosition_FACTOR);
 
 		CU_ASSERT_EQUAL(median, result);
 	}
 }
 
-void test_Round(void){
-	for (int i = 0; i < DEFAULT_test_round_DATA_size_x; i+=2) {
-		float round = round(DEFAULT_test_round_DATA[i][0], DEFAULT_test_round_DATA[i+1][0]);
+void test_roundPosition(void){
+	for (int i = 0; i < DEFAULT_test_roundPosition_DATA_size_x; i+=2) {
+		float roundPosition = roundPosition(DEFAULT_test_roundPosition_DATA[i][0], DEFAULT_test_roundPosition_DATA[i+1][0]);
 
-		CU_ASSERT_EQUAL(round, DEFAULT_test_round_DATA[i+1][1]);
+		CU_ASSERT_EQUAL(roundPosition, DEFAULT_test_roundPosition_DATA[i+1][1]);
 	}
 }
 
@@ -120,8 +120,8 @@ void test_MinMax(void){
 		int mi = fmin(x,y);
 		int ma = fmax(x,y);
 
-		CU_ASSERT_EQUAL(min(x,y), mi);
-		CU_ASSERT_EQUAL(max(x,y), ma);
+		CU_ASSERT_EQUAL(minAtomar(x,y), mi);
+		CU_ASSERT_EQUAL(maxAtomar(x,y), ma);
 
 		if (i%arraySize == 0) {
 			for (int k = 0; k < arraySize; k++) array[k] = 0;
@@ -129,8 +129,8 @@ void test_MinMax(void){
 			maxArray = 0;
 		} else {
 			array[i%arraySize] = x;
-			maxArray = max(maxArray, x);
-			minArray = min(minArray, x);
+			maxArray = maxAtomar(maxArray, x);
+			minArray = minAtomar(minArray, x);
 	
 			// test with just min or max!
 			CU_ASSERT_EQUAL(max_int_array_with_size(array, arraySize), maxArray);
@@ -145,14 +145,14 @@ void test_Wurzel() {
 	for (int i = 0; i < NUMBER_OF_TESTS; i++) {
 		float y = Zufallszahl(0, NUMBER_OF_TESTS);
 		
-		float expected = round((float) sqrt(y), ROUND_FACTOR);
-		float actual = round(wurzel(y), ROUND_FACTOR);
+		float expected = roundPosition((float) sqrt(y), roundPosition_FACTOR);
+		float actual = roundPosition(wurzel(y), roundPosition_FACTOR);
 		CU_ASSERT_EQUAL(expected, actual);
 			
 		int rad = Zufallszahl(1, MAX_SQUARE);
 		
-		expected = round(y, ROUND_FACTOR);
-		actual = round(wurzelExp((float)pow(expected, rad), rad), ROUND_FACTOR);
+		expected = roundPosition(y, roundPosition_FACTOR);
+		actual = roundPosition(wurzelExp((float)pow(expected, rad), rad), roundPosition_FACTOR);
 
 		CU_ASSERT(abs(expected-actual) <= ACCURACY);
 	}
@@ -164,8 +164,8 @@ void test_Potenz() {
 		int rad = Zufallszahl(1, MAX_SQUARE);
 			
 		// test float version of quadrat
-		float fExpected = round((float)pow(y,2), ROUND_FACTOR);
-		float fActual = round(quadrat(y), ROUND_FACTOR);
+		float fExpected = roundPosition((float)pow(y,2), roundPosition_FACTOR);
+		float fActual = roundPosition(quadrat(y), roundPosition_FACTOR);
 		CU_ASSERT_EQUAL(fExpected, fActual);
 		
 		// test int version of quadrat
@@ -173,8 +173,8 @@ void test_Potenz() {
 		int iActual = quadrat((int) y);
 		CU_ASSERT_EQUAL(iExpected, iActual);
 			
-		fExpected = round(abs(y), ROUND_FACTOR);
-		fActual = round(pot((float)wurzelExp(fExpected, rad), rad), ROUND_FACTOR);
+		fExpected = roundPosition(abs(y), roundPosition_FACTOR);
+		fActual = roundPosition(pot((float)wurzelExp(fExpected, rad), rad), roundPosition_FACTOR);
 		CU_ASSERT(abs(fExpected-fActual) <= ACCURACY);
 	}
 }
@@ -212,7 +212,7 @@ void run_All_Math_Tests() {
 	test_Random();
 	test_Standardabw();
 	test_Median();
-	test_Round();
+	test_roundPosition();
 	test_MinMax();
 	test_Wurzel();
 	test_Potenz();

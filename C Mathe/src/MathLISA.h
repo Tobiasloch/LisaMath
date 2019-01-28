@@ -3,6 +3,7 @@
 #include <math.h>
 #include <stdarg.h>
 #include <time.h>
+#include "omtcBas.h"
 
 #ifndef NAN
 #define NAN -1
@@ -50,45 +51,39 @@
 
 #define getE() E
 
-float wurzel(float x);
+lsa_float wurzel(lsa_float x);
+lsa_float wurzelExp(lsa_float x, lsa_float y);
 
-float wurzelExp(float x, float y);
+lsa_float quadrat_float(lsa_float x);
+lsa_int quadrat_int(lsa_int x);
 
-float pot_float(float x, float y);
-int pot_int(int x, int y);
+lsa_int pot_int(lsa_int x, lsa_int y);
 
-float quadrat_float(float x);
-int quadrat_int(int x);
+lsa_float ln(lsa_float x);
 
-float ln(float x);
+lsa_int modulo_int(lsa_int x, lsa_int y);
+lsa_float modulo_float(lsa_float x, lsa_float y);
 
-int modulo_int(int x, int y);
-float modulo_float(float x, float y);
+lsa_float sum_with_size(lsa_float* values, size_t size);
+lsa_float durchschnitt_with_size(lsa_float* values, size_t size);
+lsa_float varianz_with_size(lsa_float* values, size_t size);
+lsa_float standardabw_with_size(lsa_float* values, size_t size);
+lsa_float median_with_size(lsa_float* values, size_t size);
 
-float sum_with_size(float* values, size_t size);
+lsa_float min_float(lsa_float x, lsa_float y);
+lsa_int min_int(lsa_int x, lsa_int y);
+lsa_float min_float_array_with_size(lsa_float* values, size_t size);
+lsa_int min_int_array_with_size(lsa_int* values, size_t size);
 
-float durchschnitt_with_size(float* values, size_t size);
+lsa_float max_float(lsa_float x, lsa_float y);
+lsa_int max_int(lsa_int x, lsa_int y);
+lsa_float max_float_array_with_size(lsa_float* values, size_t size);
+lsa_int max_int_array_with_size(lsa_int* values, size_t size);
 
-float varianz_with_size(float* values, size_t size);
+lsa_float round_position(lsa_float x, lsa_int position);
 
-float standardabw_with_size(float* values, size_t size);
+lsa_float Zufallszahl_float(lsa_float start, lsa_float size);
+lsa_int Zufallszahl_int(lsa_int start, lsa_int size);
 
-float median_with_size(float* values, size_t size);
-
-float min_float(float x, float y);
-int min_int(int x, int y);
-float min_float_array_with_size(float* values, size_t size);
-int min_int_array_with_size(int* values, size_t size);
-
-float max_float(float x, float y);
-int max_int(int x, int y);
-float max_float_array_with_size(float* values, size_t size);
-int max_int_array_with_size(int* values, size_t size);
-
-float round_position(float x, int position);
-
-int Zufallszahl_int(int start, int size);
-float Zufallszahl_float(float start, float size);
-
-float Absolut_float(float x);
-int Absolut_int(int x);
+lsa_float Absolut_float(lsa_float x);
+lsa_int Absolut_int(lsa_int x);

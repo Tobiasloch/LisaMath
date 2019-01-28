@@ -1,6 +1,6 @@
 #include "MathLISA.h"
 
-float wurzel(float x) {
+lsa_float wurzel(lsa_float x) {
 	if (x < 0) {
 		perror("Der Wert von x ist kleiner 0!\n");
 		return NAN;
@@ -9,7 +9,7 @@ float wurzel(float x) {
 	return sqrt(x);
 }
 
-float wurzelExp(float x, float y) {
+lsa_float wurzelExp(lsa_float x, lsa_float y) {
 	if (x < 0) {
 		perror("Der Wert von x ist kleiner 0!\n");
 		return NAN;
@@ -18,19 +18,19 @@ float wurzelExp(float x, float y) {
 	return pow(x, (1/y));
 }
 
-float quadrat_float(float x) {
+lsa_float quadrat_float(lsa_float x) {
 	return pow(x,2);
 }
 
-int quadrat_int(int x) {
-	return (int)pow((float)x,2);
+lsa_int quadrat_int(lsa_int x) {
+	return (lsa_int)pow((lsa_float)x,2);
 }
 // pot_float is just a macro that redirects to pow
-int pot_int(int x, int y) {
-	return (int)pow((float)x,(float)y);
+lsa_int pot_int(lsa_int x, lsa_int y) {
+	return (lsa_int)pow((lsa_float)x,(lsa_float)y);
 }
 
-float ln(float x) {
+lsa_float ln(lsa_float x) {
 	if (x <=0) {
 		perror("Der Wert von x ist kleiner 0!\n");
 		return NAN;
@@ -39,72 +39,72 @@ float ln(float x) {
 	return log(x);
 }
 
-int modulo_int(int x, int y) {
-	return (int)fmod((float)x,(float)y);
+lsa_int modulo_int(lsa_int x, lsa_int y) {
+	return (lsa_int)fmod((lsa_float)x,(lsa_float)y);
 }
 
-float modulo_float(float x, float y) {
+lsa_float modulo_float(lsa_float x, lsa_float y) {
 	return fmod(x,y);
 }
 
-float sum_with_size(float* values, size_t size) {
+lsa_float sum_with_size(lsa_float* values, size_t size) {
 	if (size <= 0) return NAN;
 		
-	float sum = 0;
+	lsa_float sum = 0;
 	
-	for (int i = 0; i < size; i++) {
+	for (lsa_int i = 0; i < size; i++) {
 		sum+=values[i];
 	}
 	
 	return sum;
 }
 
-float durchschnitt_with_size(float* values, size_t size) {
+lsa_float durchschnitt_with_size(lsa_float* values, size_t size) {
 	if (size <= 0) return NAN;
 	
-	float s = sum_with_size(values, size);
+	lsa_float s = sum_with_size(values, size);
 	
 	return s/size;
 }
 
-float varianz_with_size(float* values, size_t size) {
+lsa_float varianz_with_size(lsa_float* values, size_t size) {
 	if (size <= 0) return NAN;
 	
-	float average = durchschnitt_with_size(values, size);
+	lsa_float average = durchschnitt_with_size(values, size);
 	
-	float varianz = 0;
-	for (int i = 0; i < size; i++) {
+	lsa_float varianz = 0;
+	for (lsa_int i = 0; i < size; i++) {
 		varianz += quadrat(values[i] - average);
 	}
 	
 	return varianz/size;
 }
 
-float standardabw_with_size(float* values, size_t size) {
+lsa_float standardabw_with_size(lsa_float* values, size_t size) {
 	if (size <= 0) return NAN;
 	
-	float v = varianz_with_size(values, size);
+	lsa_float v = varianz_with_size(values, size);
 	
 	return sqrt(v);
 }
 
 // comparator for numbers
-int comp(const void * elem1, const void * elem2) 
+lsa_int comp(const void * elem1, const void * elem2) 
 {
-    float f = *((float*)elem1);
-    float s = *((float*)elem2);
+    lsa_float f = *((lsa_float*)elem1);
+    lsa_float s = *((lsa_float*)elem2);
 	
     if (f > s) return  1;
     if (f < s) return -1;
     return 0;
 }
 
-float median_with_size(float* values, size_t size) {
+lsa_float median_with_size(lsa_float* values, size_t size) {
 	if (size <= 0) return NAN;
 	
-	qsort(values, size, sizeof(float), comp);
+	qsort(values, size, sizeof(lsa_float), comp);
 	
-	float m = 0;
+	lsa_float m = 0;
 	if (fmod(size, 2) == 0) {
 		m = (values[size/2] + values[(size/2)-1])/2;
 	} else {
@@ -114,34 +114,34 @@ float median_with_size(float* values, size_t size) {
 	return m;
 }
 
-float min_float(float x, float y) {
+lsa_float min_float(lsa_float x, lsa_float y) {
 	if (x < y) return x;
 	return y;
 }
 
-int min_int(int x, int y) {
+lsa_int min_int(lsa_int x, lsa_int y) {
 	if (x < y) return x;
 	return y;
 }
 
-float min_float_array_with_size(float* values, size_t size){
+lsa_float min_float_array_with_size(lsa_float* values, size_t size){
 	if (size <= 0) return NAN;
 	
-	float m = values[0];
+	lsa_float m = values[0];
 	
-	for (int i = 1; i < size; i++) {
+	for (lsa_int i = 1; i < size; i++) {
 		m = min_float(m, values[i]);
 	}
 	
 	return m;
 }
 
-int min_int_array_with_size(int* values, size_t size){
-	if (size <= 0) return (int)NAN;
+lsa_int min_int_array_with_size(lsa_int* values, size_t size){
+	if (size <= 0) return (lsa_int)NAN;
 	
-	int m = values[0];
+	lsa_int m = values[0];
 	
-	for (int i = 1; i < size; i++) {
+	for (lsa_int i = 1; i < size; i++) {
 		m = min_int(m, values[i]);
 	}
 	
@@ -149,70 +149,70 @@ int min_int_array_with_size(int* values, size_t size){
 }
 
 
-float max_float(float x, float y) {
+lsa_float max_float(lsa_float x, lsa_float y) {
 	if (x > y) return x;
 	return y;
 }
 
-int max_int(int x, int y) {
+lsa_int max_int(lsa_int x, lsa_int y) {
 	if (x > y) return x;
 	return y;
 }
 
-float max_float_array_with_size(float* values, size_t size){
+lsa_float max_float_array_with_size(lsa_float* values, size_t size){
 	if (size <= 0) return NAN;
 	
-	float m = values[0];
+	lsa_float m = values[0];
 	
-	for (int i = 1; i < size; i++) {
+	for (lsa_int i = 1; i < size; i++) {
 		m = max_float(m, values[i]);
 	}
 	
 	return m;
 }
 
-int max_int_array_with_size(int* values, size_t size){
-	if (size <= 0) return (int)NAN;
+lsa_int max_int_array_with_size(lsa_int* values, size_t size){
+	if (size <= 0) return (lsa_int)NAN;
 	
-	int m = values[0];
+	lsa_int m = values[0];
 	
-	for (int i = 1; i < size; i++) {
+	for (lsa_int i = 1; i < size; i++) {
 		m = max_int(m, values[i]);
 	}
 	
 	return m;
 }
 
-float round_position(float x, int position) {
+lsa_float round_position(lsa_float x, lsa_int position) {
 	if (position < 0) return NAN;
 	
-	float p = pow(10, (float)position);
-	float r = round(x*p)/p;
+	lsa_float p = pow(10, (lsa_float)position);
+	lsa_float r = round(x*p)/p;
 	
 	return r;
 }
 
-float Zufallszahl_float(float start, float size) {
+lsa_float Zufallszahl_float(lsa_float start, lsa_float size) {
 	if (size < 0) return NAN;
 	
 	srand(time(NULL));
-	float r = (float)rand()/RAND_MAX;
+	lsa_float r = (lsa_float)rand()/RAND_MAX;
 
 	r = (r*size)+start;
 	
 	return r;
 }
 
-int Zufallszahl_int(int start, int size) {
-	float r = Zufallszahl_float(start, size);
+lsa_int Zufallszahl_int(lsa_int start, lsa_int size) {
+	lsa_float r = Zufallszahl_float(start, size);
 	
-	return (int)round(r);
+	return (lsa_int)round(r);
 }
 
-float Absolut_float(float x) {
+lsa_float Absolut_float(lsa_float x) {
 	return fabs(x);
 }
 
-int Absolut_int(int x) {
-	return (int)fabs(x);
+lsa_int Absolut_int(lsa_int x) {
+	return (lsa_int)fabs(x);
 }
