@@ -21,8 +21,8 @@
 
 #define NELEMS(x) (sizeof(x) / sizeof((x)[0]))
 
-#define MathePot(a, b) _Generic(a, long: MathePot_int, int: MathePot_int, double:pow, float: pow)(a,b)
-#define MatheQuadrat(a) _Generic(a, long: MatheQuadrat_int, int: MatheQuadrat_int, double:MatheQuadrat_float, float: MatheQuadrat_float)(a)
+#define MathePot(a, b) _Generic(a, lsa_int: MathePot_int, lsa_float: pow)(a,b)
+#define MatheQuadrat(a) _Generic(a, lsa_int: MatheQuadrat_int, lsa_float: MatheQuadrat_float)(a)
 
 #define MatheSum(a) MatheSum_with_size(a, NELEMS(a))
 #define MatheDurchschnitt(a) MatheDurchschnitt_with_size(a, NELEMS(a))
@@ -30,20 +30,20 @@
 #define MatheStandardabw(a) MatheStandardabw_with_size(a, NELEMS(a))
 #define MatheMedian(a) MatheMedian_with_size(a, NELEMS(a))
 
-#define MatheMin(a) _Generic(a, float*:MatheMin_float_array_with_size, int*: MatheMin_int_array_with_size)(a, NELEMS(a))
-#define MatheMinAtomar(a,b) _Generic(a, long: MatheMin_int, int: MatheMin_int, double:MatheMin_float, float: MatheMin_float)(a,b)
+#define MatheMin(a) _Generic(a, lsa_float*:MatheMin_float_array_with_size, lsa_int*: MatheMin_int_array_with_size)(a, NELEMS(a))
+#define MatheMinAtomar(a,b) _Generic(a, lsa_long: MatheMin_int, lsa_int: MatheMin_int, double:MatheMin_float, lsa_float: MatheMin_float)(a,b)
 	
-#define MatheMax(a) _Generic(a, float*:MatheMax_float_array_with_size, int*: MatheMax_int_array_with_size)(a, NELEMS(a))
-#define MatheMaxAtomar(a,b) _Generic(a, long: MatheMax_int, int: MatheMax_int, double:MatheMax_float, float: MatheMax_float)(a,b)
+#define MatheMax(a) _Generic(a, lsa_float*:MatheMax_float_array_with_size, lsa_int*: MatheMax_int_array_with_size)(a, NELEMS(a))
+#define MatheMaxAtomar(a,b) _Generic(a, lsa_int: MatheMax_int, lsa_float: MatheMax_float)(a,b)
 
 #define MatheRound(a) round(a)
 #define MatheRoundPosition(a, b) MatheRound_position(a,b)
 
-#define MatheZufallszahl(a, b) _Generic(a, long: MatheZufallszahl_int, int: MatheZufallszahl_int, double:MatheZufallszahl_float, float: MatheZufallszahl_float)(a, b)
+#define MatheZufallszahl(a, b) _Generic(a, lsa_int: MatheZufallszahl_int, lsa_float: MatheZufallszahl_float)(a, b)
 
-#define MatheAbsolut(a) _Generic(a, long: MatheAbsolut_int, int: MatheAbsolut_int, double: MatheAbsolut_float, float: MatheAbsolut_float)(a)
+#define MatheAbsolut(a) _Generic(a, lsa_int: MatheAbsolut_int, lsa_float: MatheAbsolut_float)(a)
 
-#define MatheModulo(a,b) _Generic(a, long:MatheModulo_int, int:MatheModulo_int, double:MatheModulo_float, float:MatheModulo_float)(a,b)
+#define MatheModulo(a,b) _Generic(a, lsa_int:MatheModulo_int, lsa_float:MatheModulo_float)(a,b)
 
 #define MatheExp(x) pot_float(E, x)
 
