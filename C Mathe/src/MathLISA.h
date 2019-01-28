@@ -170,11 +170,11 @@
 	({ float retval;\
 	CHECK_TYPE(values, float*);\
 	CHECK_TYPE(size, int);\
-	if (size <= 0) return NAN;\
-	\
+	if (size <= 0) retval = NAN;\
+	else {\
 	float v = varianz_with_size(values, size);\
 	\
-	retval = sqrt(v);\
+	retval = sqrt(v);}\
 	retval;})
 
 // comparator for numbers
@@ -187,16 +187,16 @@
     if (f > s) return  1;\
     if (f < s) return -1;\
     return 0;\
-}
+}\
 }
 
 #define median_with_size(values, size) \
 	({ float retval;\
 	CHECK_TYPE(values, float*);\
 	CHECK_TYPE(size, int);\
-	if (size <= 0) {\
-		retval = NAN;break;}\
-	\
+	if (size <= 0) \
+		retval = NAN;\
+	else {\
 	qsort(values, size, sizeof(float), compPointer);\
 	\
 	float m = 0;\
@@ -206,17 +206,15 @@
 		m = values[size/2];\
 	}\
 	\
-	retval = m;\
+	retval = m;}\
 	retval;})
 
-
-float min_float(float x, float y) {
 #define min_float(x, y) \
 	({ float retval;\
 	CHECK_TYPE(x, float);\
 	CHECK_TYPE(y, float);\
 	if (x < y) retval = x;\
-	retval = y;\
+	else retval = y;\
 	retval;})
 
 
