@@ -38,8 +38,6 @@
 #define round(a) round(a)
 #define roundPosition(a, b) round_position(a,b)
 
-#define Zufallszahl(a, b) _Generic(a, long: Zufallszahl_int, int: Zufallszahl_int, double:Zufallszahl_float, float: Zufallszahl_float)(a, b)
-
 #define Absolut(a) _Generic(a, long: Absolut_int, int: Absolut_int, double: Absolut_float, float: Absolut_float)(a)
 
 #define modulo(a,b) _Generic(a, long:modulo_int, int:modulo_int, double:modulo_float, float:modulo_float)(a,b)
@@ -150,7 +148,7 @@
 	retval;})
 
 
-#define varianz_with_size(float* values, size_t size) \
+#define varianz_with_size(values, size) \
 	({ float retval;\
 	CHECK_TYPE(values, float*);\
 	CHECK_TYPE(size, int);\
@@ -218,101 +216,129 @@
 	retval;})
 
 
-int min_int(int x, int y) {
-	if (x < y) return x;
-	return y;
-}
-
-float min_float_array_with_size(float* values, size_t size){
-	if (size <= 0) return NAN;
-	
-	float m = values[0];
-	
-	for (int i = 1; i < size; i++) {
-		m = min_float(m, values[i]);
-	}
-	
-	return m;
-}
-
-int min_int_array_with_size(int* values, size_t size){
-	if (size <= 0) return (int)NAN;
-	
-	int m = values[0];
-	
-	for (int i = 1; i < size; i++) {
-		m = min_int(m, values[i]);
-	}
-	
-	return m;
-}
+#define min_int(x, y) \
+	({ int retval;\
+	CHECK_TYPE(x, int);\
+	CHECK_TYPE(y, int);\
+	if (x < y) retval = x;\
+	else retval = y;\
+	retval;})
 
 
-float max_float(float x, float y) {
-	if (x > y) return x;
-	return y;
-}
+#define min_float_array_with_size(values, size){\
+	({ float retval;\
+	CHECK_TYPE(values, float*);\
+	CHECK_TYPE(size, int);\
+	if (size <= 0) retval = NAN;\
+	else {\
+	float m = values[0];\
+	\
+	for (int i = 1; i < size; i++) {\
+		m = min_float(m, values[i]);\
+	}\
+	\
+	retval = m;}\
+	retval;})
 
-int max_int(int x, int y) {
-	if (x > y) return x;
-	return y;
-}
+#define min_int_array_with_size(values, size)\
+	({ int retval;\
+	CHECK_TYPE(values, int*);\
+	CHECK_TYPE(size, int);\
+	if (size <= 0) retval = (int)NAN;\
+	\
+	int m = values[0];\
+	\
+	for (int i = 1; i < size; i++) {\
+		m = min_int(m, values[i]);\
+	}\
+	\
+	retval = m;\
+	retval;})
 
-float max_float_array_with_size(float* values, size_t size){
-	if (size <= 0) return NAN;
-	
-	float m = values[0];
-	
-	for (int i = 1; i < size; i++) {
-		m = max_float(m, values[i]);
-	}
-	
-	return m;
-}
 
-int max_int_array_with_size(int* values, size_t size){
-	if (size <= 0) return (int)NAN;
-	
-	int m = values[0];
-	
-	for (int i = 1; i < size; i++) {
-		m = max_int(m, values[i]);
-	}
-	
-	return m;
-}
+#define max_float(x, y) \
+	({ float retval;\
+	CHECK_TYPE(x, float);\
+	CHECK_TYPE(y, float);\
+	if (x > y) retval = x;\
+	else retval = y;\
+	retval;})
 
-float round_position(float x, int position) {
-	if (position < 0) return NAN;
-	
-	float p = pow(10, (float)position);
-	float r = round(x*p)/p;
-	
-	return r;
-}
+#define max_int(x, y) \
+	({ int retval;\
+	CHECK_TYPE(x, int);\
+	CHECK_TYPE(y, int);\
+	if (x > y) retval = x;\
+	else retval = y;\
+	retval;})
 
-float Zufallszahl_float(float start, float size) {
-	if (size < 0) return NAN;
-	
-	srand(time(NULL));
-	float r = (float)rand()/RAND_MAX;
+#define max_float_array_with_size(values, size)\
+	({ float retval;\
+	CHECK_TYPE(values, float*);\
+	CHECK_TYPE(size, int);\
+	if (size <= 0) retval = NAN;\
+	else {\
+	float m = values[0];\
+	\
+	for (int i = 1; i < size; i++) {\
+		m = max_float(m, values[i]);\
+	}\
+	\
+	retval = m;}\
+	retval;})
 
-	r = (r*size)+start;
-	
-	return r;
-}
+#define max_int_array_with_size(values, size)\
+	({ int retval;\
+	CHECK_TYPE(values, int);\
+	CHECK_TYPE(size, int);\
+	if (size <= 0) retval = (int)NAN;\
+	else {\
+	int m = values[0];\
+	\
+	for (int i = 1; i < size; i++) {\
+		m = max_int(m, values[i]);\
+	}\
+	\
+	retval = m;}\
+	retval;})
 
-int Zufallszahl_int(int start, int size) {
-	float r = Zufallszahl_float(start, size);
-	
-	return (int)round(r);
-}
+#define round_position(x, position) \
+	({ float retval;\
+	CHECK_TYPE(x, float);\
+	CHECK_TYPE(position, int);\
+	if (position < 0) retval = NAN;\
+	else {\
+	float p = pow(10, (float)position);\
+	float r = round(x*p)/p;\
+	\
+	retval = r;}\
+	retval;})
 
-float Absolut_float(float x) {
-	return fabs(x);
-}
+#define Zufallszahl_float(start, size) \
+	({ float retval;\
+	CHECK_TYPE(start, float);\
+	CHECK_TYPE(size, float);\
+	if (size < 0) retval = NAN;\
+	else {\
+	srand(time(NULL));\
+	float r = (float)rand()/RAND_MAX;\
+\
+	r = (r*size)+start;\
+	\
+	retval = r;}\
+	retval;})
 
-int Absolut_int(int x) {
-	return (int)fabs(x);
-}
+#define Zufallszahl_int(start, size) \
+	({ int retval;\
+	CHECK_TYPE(x, int);\
+	CHECK_TYPE(y, int);\
+	float r = Zufallszahl_float(start, size);\
+	\
+	retval = (int)round(r);\
+	retval;})
 
+#define Absolut_float(x) fabs(x)
+
+#define Absolut_int(x) (int)fabs(x)
+
+#define Zufallszahl(a, b) _Generic(a, long: (long)round(Zufallszahl_float(start, size)), int: (int)round(Zufallszahl_float(start, size)), double:Zufallszahl_float(a,b), float: Zufallszahl_float(a,b))
