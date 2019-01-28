@@ -46,45 +46,275 @@
 
 #define exp(x) pot_float(E, x)
 
-float wurzel(float x);
+#define CHECK_TYPE(var,type) { __typeof(var) *__tmp; __tmp = (type *)NULL; }
 
-float wurzelExp(float x, float y);
+#define getPI() PI
 
-float pot_float(float x, float y);
-int pot_int(int x, int y);
+#define getE() E
 
-float quadrat_float(float x);
-int quadrat_int(int x);
+#define wurzel(x) \
+	({ float retval;\
+	CHECK_TYPE(x,float);\
+	if (x < 0) {\
+		perror("Der Wert von x ist kleiner 0!\n");\
+		retval = NAN;\
+	} else {\
+	\
+	retval = sqrt(x);}\
+	retval;})
 
-float ln(float x);
 
-int modulo_int(int x, int y);
-float modulo_float(float x, float y);
+#define wurzelExp(x, y) \
+	({ float retval;\
+	CHECK_TYPE(x,float);\
+	CHECK_TYPE(x,float);\
+	if (x < 0) {\
+		perror("Der Wert von x ist kleiner 0!\n");\
+		return NAN;\
+	} else {\
+	\
+	retval = pow(x, (1/y));}\
+	retval;})
 
-float sum_with_size(float* values, size_t size);
 
-float durchschnitt_with_size(float* values, size_t size);
+#define quadrat_float(x) \
+	({ float retval;\
+	CHECK_TYPE(x,float);\
+	retval = pow(x,2);\
+	retval;})
 
-float varianz_with_size(float* values, size_t size);
 
-float standardabw_with_size(float* values, size_t size);
+#define quadrat_int(x) \
+	({ int retval;\
+	CHECK_TYPE(x,int);\
+	retval = (int)pow((float)x,2);\
+	retval;})
 
-float median_with_size(float* values, size_t size);
 
-float min_float(float x, float y);
-int min_int(int x, int y);
-float min_float_array_with_size(float* values, size_t size);
-int min_int_array_with_size(int* values, size_t size);
+// pot_float is just a macro that redirects to pow
+#define pot_int(x, y) \
+	({ int retval;\
+	CHECK_TYPE(x,int);\
+	CHECK_TYPE(x,int);\
+	retval = (int)pow((float)x,(float)y);\
+	retval;})
 
-float max_float(float x, float y);
-int max_int(int x, int y);
-float max_float_array_with_size(float* values, size_t size);
-int max_int_array_with_size(int* values, size_t size);
+#define ln(x) \
+	({ float retval;\
+	CHECK_TYPE(x,float);\
+	if (x <=0) {\
+		perror("Der Wert von x ist kleiner 0!\n");\
+		return NAN;\
+	} else {\
+	\
+	retval = log(x);}\
+	retval;})
 
-float round_position(float x, int position);
+#define modulo_int(x, y) \
+	({ int retval;\
+	CHECK_TYPE(x,int);\
+	retval = (int)fmod((float)x,(float)y);\
+	retval;})
 
-int Zufallszahl_int(int start, int size);
-float Zufallszahl_float(float start, float size);
+#define modulo_float(x, y) \
+	({ float retval;\
+	CHECK_TYPE(x,float);\
+	CHECK_TYPE(y,float);\
+	retval = fmod(x,y);\
+	retval;})
 
-float Absolut_float(float x);
-int Absolut_int(int x);
+#define sum_with_size(values, size) \
+	({ float retval;\
+	CHECK_TYPE(values, float*);\
+	CHECK_TYPE(size, int);\
+	if (size <= 0) retval = NAN;\
+	else {\
+	float sum = 0;\
+	\
+	for (int i = 0; i < size; i++) {\
+		sum+=values[i];\
+	}\
+	\
+	retval = sum;}\
+	retval;})
+
+#define durchschnitt_with_size(values, size) \
+	({ float retval;\
+	CHECK_TYPE(values, float*);\
+	CHECK_TYPE(size, int);\
+	if (size <= 0) return NAN;\
+	else {\
+	float s = sum_with_size(values, size);\
+	\
+	retval = s/size;}\
+	retval;})
+
+
+#define varianz_with_size(float* values, size_t size) \
+	({ float retval;\
+	CHECK_TYPE(values, float*);\
+	CHECK_TYPE(size, int);\
+	if (size <= 0) return NAN;\
+	else {\
+	float average = durchschnitt_with_size(values, size);\
+	\
+	float varianz = 0;\
+	for (int i = 0; i < size; i++) {\
+		varianz += quadrat(values[i] - average);\
+	}\
+	\
+	retval = varianz/size;} \
+	retval;})
+
+#define standardabw_with_size(values, size) \
+	({ float retval;\
+	CHECK_TYPE(values, float*);\
+	CHECK_TYPE(size, int);\
+	if (size <= 0) return NAN;\
+	\
+	float v = varianz_with_size(values, size);\
+	\
+	retval = sqrt(v);\
+	retval;})
+
+// comparator for numbers
+#define compPointer \
+{int comp(const void * elem1, const void * elem2) \
+{\
+    float f = *((float*)elem1);\
+    float s = *((float*)elem2);\
+	\
+    if (f > s) return  1;\
+    if (f < s) return -1;\
+    return 0;\
+}
+}
+
+#define median_with_size(values, size) \
+	({ float retval;\
+	CHECK_TYPE(values, float*);\
+	CHECK_TYPE(size, int);\
+	if (size <= 0) {\
+		retval = NAN;break;}\
+	\
+	qsort(values, size, sizeof(float), compPointer);\
+	\
+	float m = 0;\
+	if (fmod(size, 2) == 0) {\
+		m = (values[size/2] + values[(size/2)-1])/2;\
+	} else {\
+		m = values[size/2];\
+	}\
+	\
+	retval = m;\
+	retval;})
+
+
+float min_float(float x, float y) {
+#define min_float(x, y) \
+	({ float retval;\
+	CHECK_TYPE(x, float);\
+	CHECK_TYPE(y, float);\
+	if (x < y) retval = x;\
+	retval = y;\
+	retval;})
+
+
+int min_int(int x, int y) {
+	if (x < y) return x;
+	return y;
+}
+
+float min_float_array_with_size(float* values, size_t size){
+	if (size <= 0) return NAN;
+	
+	float m = values[0];
+	
+	for (int i = 1; i < size; i++) {
+		m = min_float(m, values[i]);
+	}
+	
+	return m;
+}
+
+int min_int_array_with_size(int* values, size_t size){
+	if (size <= 0) return (int)NAN;
+	
+	int m = values[0];
+	
+	for (int i = 1; i < size; i++) {
+		m = min_int(m, values[i]);
+	}
+	
+	return m;
+}
+
+
+float max_float(float x, float y) {
+	if (x > y) return x;
+	return y;
+}
+
+int max_int(int x, int y) {
+	if (x > y) return x;
+	return y;
+}
+
+float max_float_array_with_size(float* values, size_t size){
+	if (size <= 0) return NAN;
+	
+	float m = values[0];
+	
+	for (int i = 1; i < size; i++) {
+		m = max_float(m, values[i]);
+	}
+	
+	return m;
+}
+
+int max_int_array_with_size(int* values, size_t size){
+	if (size <= 0) return (int)NAN;
+	
+	int m = values[0];
+	
+	for (int i = 1; i < size; i++) {
+		m = max_int(m, values[i]);
+	}
+	
+	return m;
+}
+
+float round_position(float x, int position) {
+	if (position < 0) return NAN;
+	
+	float p = pow(10, (float)position);
+	float r = round(x*p)/p;
+	
+	return r;
+}
+
+float Zufallszahl_float(float start, float size) {
+	if (size < 0) return NAN;
+	
+	srand(time(NULL));
+	float r = (float)rand()/RAND_MAX;
+
+	r = (r*size)+start;
+	
+	return r;
+}
+
+int Zufallszahl_int(int start, int size) {
+	float r = Zufallszahl_float(start, size);
+	
+	return (int)round(r);
+}
+
+float Absolut_float(float x) {
+	return fabs(x);
+}
+
+int Absolut_int(int x) {
+	return (int)fabs(x);
+}
+
